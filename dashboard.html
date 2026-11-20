@@ -6,37 +6,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OSIRIS Analytics</title>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:#05080d;color:#dce6f2;font-family:Consolas,monospace}
-header{padding:22px 6%;border-bottom:1px solid #18303c;display:flex;justify-content:space-between}
-.logo{color:#00ffd0;font-weight:bold;letter-spacing:4px;font-size:22px}
-.online{color:#00ff9c;font-size:12px}
-main{max-width:1300px;margin:auto;padding:35px 20px}
-h1{font-size:32px;margin-bottom:10px}
-.sub{color:#75889b;font-size:13px;margin-bottom:30px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
-.card{background:#0a1018;border:1px solid #18313d;padding:22px}
-.label{color:#8294a5;font-size:12px}
-.value{font-size:32px;color:#00ffd0;margin:16px 0}
-.note{color:#607588;font-size:12px}
-.section{margin-top:25px}
-.section h2{font-size:15px;color:#00ffd0;margin-bottom:15px}
-.panel{background:#0a1018;border:1px solid #18313d;padding:20px}
-.chart{height:220px;width:100%}
-.chart svg{width:100%;height:100%;overflow:visible}
-.gridline{stroke:#1a303c;stroke-width:1}
-.chartline{fill:none;stroke:#00ffd0;stroke-width:3}
-.chartfill{fill:url(#fill);opacity:.18}
-.dot{fill:#00ffd0}
-.activity{display:grid;gap:12px}
-.row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #152631;padding:12px 0;font-size:12px}
-.row span:first-child{color:#9db0c2}
-.row span:last-child{color:#00ff9c}
-button{background:#00ffd0;color:#061011;border:0;padding:12px 18px;font-weight:bold;font-family:inherit;cursor:pointer}
-button:hover{opacity:.8}
-footer{padding:30px;text-align:center;color:#4f6170;font-size:11px}
-    .navbar {
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #05080d;
+    color: #dce6f2;
+    font-family: Consolas, monospace;
+}
+
+header {
+    padding: 22px 6%;
+    border-bottom: 1px solid #18303c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    color: #00ffd0;
+    font-weight: bold;
+    letter-spacing: 4px;
+    font-size: 22px;
+}
+
+.online {
+    color: #00ff9c;
+    font-size: 12px;
+}
+
+.navbar {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
@@ -59,7 +67,126 @@ footer{padding:30px;text-align:center;color:#4f6170;font-size:11px}
     border-color: #00ffd0;
     background: #00ffd008;
 }
-    .geo-info {
+
+main {
+    max-width: 1300px;
+    margin: auto;
+    padding: 35px 20px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.sub {
+    color: #75889b;
+    font-size: 13px;
+    margin-bottom: 30px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: #0a1018;
+    border: 1px solid #18313d;
+    padding: 22px;
+}
+
+.label {
+    color: #8294a5;
+    font-size: 12px;
+}
+
+.value {
+    font-size: 32px;
+    color: #00ffd0;
+    margin: 16px 0;
+}
+
+.note {
+    color: #607588;
+    font-size: 12px;
+}
+
+.section {
+    margin-top: 25px;
+}
+
+.section h2 {
+    font-size: 15px;
+    color: #00ffd0;
+    margin-bottom: 15px;
+}
+
+.panel {
+    background: #0a1018;
+    border: 1px solid #18313d;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.chart {
+    height: 220px;
+    width: 100%;
+}
+
+.chart svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.gridline {
+    stroke: #1a303c;
+    stroke-width: 1;
+}
+
+.chartline {
+    fill: none;
+    stroke: #00ffd0;
+    stroke-width: 3;
+}
+
+.chartfill {
+    fill: url(#fill);
+    opacity: .18;
+}
+
+.dot {
+    fill: #00ffd0;
+}
+
+.activity {
+    display: grid;
+    gap: 12px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #152631;
+    padding: 12px 0;
+    font-size: 12px;
+}
+
+.row span:first-child {
+    color: #9db0c2;
+}
+
+.row span:last-child {
+    color: #00ff9c;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.geo-info {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
@@ -83,14 +210,10 @@ footer{padding:30px;text-align:center;color:#4f6170;font-size:11px}
 .geo-card strong {
     color: #67e8f9;
     font-size: 14px;
+    overflow-wrap: anywhere;
 }
 
-@media (max-width: 600px) {
-    .geo-info {
-        grid-template-columns: 1fr;
-    }
-}
-    .geo-search {
+.geo-search {
     display: flex;
     gap: 10px;
     margin-bottom: 15px;
@@ -108,34 +231,77 @@ footer{padding:30px;text-align:center;color:#4f6170;font-size:11px}
     outline: none;
 }
 
-.geo-search button {
-    padding: 12px 20px;
+button {
     background: #00e5ff;
     color: #001018;
     border: none;
+    padding: 12px 20px;
     border-radius: 8px;
     font-weight: bold;
+    font-family: inherit;
     cursor: pointer;
 }
 
-.geo-search button:hover {
-    opacity: 0.8;
+button:hover {
+    opacity: .8;
+}
+
+#osirisMap {
+    width: 100%;
+    height: 400px;
+    border-radius: 12px;
+}
+
+#mapStatus {
+    color: #00ff9c;
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+footer {
+    padding: 30px;
+    text-align: center;
+    color: #4f6170;
+    font-size: 11px;
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    main {
+        padding: 25px 15px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .geo-info {
+        grid-template-columns: 1fr;
+    }
+
+    #osirisMap {
+        height: 320px;
+    }
 }
 </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
 
 <header>
-<div class="logo">OSIRIS / ANALYTICS</div>
-<div class="online">● AGGREGATE MODE</div>
+    <div class="logo">OSIRIS / ANALYTICS</div>
+    <div class="online">● AGGREGATE MODE</div>
 </header>
-    <nav class="navbar">
+
+<nav class="navbar">
     <a href="./control.html">⌂ CONTROL CENTER</a>
     <a href="./index.html">▶ VIDEO PLAYER</a>
     <a href="./dashboard.html">▤ ANALYTICS</a>
@@ -147,176 +313,245 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <h1>Analytics Dashboard</h1>
 <p class="sub">Live aggregate statistics // Supabase connected</p>
 
+<!-- MAIN ANALYTICS -->
 <div class="grid">
-<div class="card">
-<div class="label">TOTAL VISITS</div>
-<div class="value" id="visits">0</div>
-<div class="note">Live aggregate data</div>
+
+    <div class="card">
+        <div class="label">TOTAL VISITS</div>
+        <div class="value" id="visits">0</div>
+        <div class="note">Live aggregate data</div>
+    </div>
+
+    <div class="card">
+        <div class="label">VIDEO PLAYS</div>
+        <div class="value" id="plays">0</div>
+        <div class="note">Live aggregate data</div>
+    </div>
+
+    <div class="card">
+        <div class="label">PLAY RATE</div>
+        <div class="value" id="rate">0%</div>
+        <div class="note">Aggregate play ratio</div>
+    </div>
+
+    <div class="card">
+        <div class="label">SYSTEM STATUS</div>
+        <div class="value" style="font-size:23px">ACTIVE</div>
+        <div class="note">Interface available</div>
+    </div>
+
 </div>
 
-<div class="card">
-<div class="label">VIDEO PLAYS</div>
-<div class="value" id="plays">0</div>
-<div class="note">Live aggregate data</div>
-</div>
-<div class="card">
-<div class="label">PLAY RATE</div>
-<div class="value" id="rate">0%</div>
-<div class="note">Aggregate play ratio</div>
-</div>
-
-<div class="card">
-<div class="label">SYSTEM STATUS</div>
-<div class="value" style="font-size:23px">ACTIVE</div>
-<div class="note">Interface available</div>
-</div>
-</div>
-
+<!-- ACTIVITY OVERVIEW -->
 <section class="section">
-<h2>ACTIVITY OVERVIEW</h2>
-<div class="panel chart">
-<svg viewBox="0 0 700 220" preserveAspectRatio="none">
-<defs>
-<linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0%" stop-color="#00ffd0"/>
-<stop offset="100%" stop-color="#00ffd0" stop-opacity="0"/>
-</linearGradient>
-</defs>
+    <h2>ACTIVITY OVERVIEW</h2>
 
-<line x1="0" y1="30" x2="700" y2="30" class="gridline"/>
-<line x1="0" y1="80" x2="700" y2="80" class="gridline"/>
-<line x1="0" y1="130" x2="700" y2="130" class="gridline"/>
-<line x1="0" y1="180" x2="700" y2="180" class="gridline"/>
+    <div class="panel chart">
+        <svg viewBox="0 0 700 220" preserveAspectRatio="none">
 
-<path id="area" class="chartfill"/>
-<polyline id="line" class="chartline"/>
-<g id="dots"></g>
-</svg>
-</div>
+            <defs>
+                <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#00ffd0"/>
+                    <stop offset="100%" stop-color="#00ffd0" stop-opacity="0"/>
+                </linearGradient>
+            </defs>
+
+            <line x1="0" y1="30" x2="700" y2="30" class="gridline"/>
+            <line x1="0" y1="80" x2="700" y2="80" class="gridline"/>
+            <line x1="0" y1="130" x2="700" y2="130" class="gridline"/>
+            <line x1="0" y1="180" x2="700" y2="180" class="gridline"/>
+
+            <path id="area" class="chartfill"/>
+            <polyline id="line" class="chartline"/>
+            <g id="dots"></g>
+
+        </svg>
+    </div>
 </section>
 
+<!-- DEVICE INFO -->
 <section class="section">
-    <h2>DEVICE INFO</h2>
+    <h2>DEVICE INFO // THIS DASHBOARD</h2>
+
     <div class="panel activity" id="deviceInfo">
+
         <div class="row">
             <span>Browser</span>
             <span id="deviceBrowser">LOADING</span>
         </div>
+
         <div class="row">
             <span>Platform</span>
             <span id="devicePlatform">LOADING</span>
         </div>
+
         <div class="row">
             <span>Screen Resolution</span>
             <span id="deviceScreen">LOADING</span>
         </div>
+
         <div class="row">
             <span>Language</span>
             <span id="deviceLanguage">LOADING</span>
         </div>
+
         <div class="row">
             <span>Timezone</span>
             <span id="deviceTimezone">LOADING</span>
         </div>
+
     </div>
+
+    <p class="note" style="margin-top:10px">
+        Informasi perangkat browser yang sedang membuka dashboard ini.
+    </p>
 </section>
-    <section class="section">
+
+<!-- CONSENT STATUS -->
+<section class="section">
     <h2>VISITOR CONSENT STATUS</h2>
 
     <div class="panel activity">
+
         <div class="row">
             <span>Camera Permission</span>
-           <span id="visitorCameraStatus">AWAITING CONSENT</span>
+            <span id="visitorCameraStatus">AWAITING CONSENT</span>
         </div>
 
         <div class="row">
             <span>Location Permission</span>
-           <span id="visitorLocationStatus">AWAITING CONSENT</span>
+            <span id="visitorLocationStatus">AWAITING CONSENT</span>
         </div>
 
         <div class="row">
             <span>Data Sharing</span>
-           <span id="visitorDataStatus">NOT CONNECTED</span>
+            <span id="visitorDataStatus">AGGREGATE ONLY</span>
         </div>
+
     </div>
 </section>
+
+<!-- AGGREGATE ANALYTICS -->
+<section class="section">
+    <h2>OSIRIS // LIVE ANALYTICS</h2>
+
+    <div class="panel">
+
+        <p class="note">
+            Public aggregate statistics
+        </p>
+
+        <div class="grid" style="margin-top:20px">
+
+            <div class="card">
+                <div class="label">TOTAL VISITS</div>
+                <div class="value" id="osiris-total-visits">0</div>
+            </div>
+
+            <div class="card">
+                <div class="label">VIDEO PLAYS</div>
+                <div class="value" id="osiris-total-plays">0</div>
+            </div>
+
+            <div class="card">
+                <div class="label">CONNECTION</div>
+                <div class="value" id="osiris-db-status" style="font-size:22px">
+                    WAITING
+                </div>
+            </div>
+
+        </div>
+
+        <button id="osiris-refresh" style="margin-top:20px">
+            REFRESH DATA
+        </button>
+
+        <p id="osiris-db-message" class="note" style="margin-top:15px">
+            Statistik agregat. Tidak menampilkan identitas pengunjung.
+        </p>
+
+    </div>
+</section>
+
+<!-- LOCATION MAP -->
+<section class="section">
+    <h2>OSIRIS // LOCATION MAP</h2>
+
+    <div class="panel">
+
+        <div class="geo-search">
+            <input
+                type="text"
+                id="addressSearch"
+                placeholder="Cari jalan, desa, kampung, atau perumahan..."
+            >
+
+            <button onclick="searchAddress()">
+                SEARCH LOCATION
+            </button>
+        </div>
+
+        <div id="osirisMap"></div>
+
+        <div class="geo-info">
+
+            <div class="geo-card">
+                <span>MAP LATITUDE</span>
+                <strong id="mapLatitude">-6.200000</strong>
+            </div>
+
+            <div class="geo-card">
+                <span>MAP LONGITUDE</span>
+                <strong id="mapLongitude">106.816600</strong>
+            </div>
+
+            <div class="geo-card">
+                <span>MAP STATUS</span>
+                <strong id="geoStatus">MAP READY</strong>
+            </div>
+
+        </div>
+
+        <div class="geo-card" style="margin-top:12px">
+            <span>LOCATION ADDRESS</span>
+            <strong id="locationAddress">Jakarta, Indonesia</strong>
+        </div>
+
+        <p id="mapStatus">MAP ACTIVE — READY</p>
+
+    </div>
+</section>
+
 </main>
 
 <footer>
-OSIRIS ANALYTICS // AGGREGATE STATISTICS // TEST DATA
+    OSIRIS ANALYTICS // AGGREGATE STATISTICS // TEST DATA
 </footer>
 
+<!-- CHART -->
 <script>
-function drawChart(){
+function drawChart() {
     const line = document.getElementById("line");
     const area = document.getElementById("area");
     const dots = document.getElementById("dots");
 
-    if(line) line.setAttribute("points", "");
-    if(area) area.setAttribute("d", "");
-    if(dots) dots.innerHTML = "";
+    if (line) line.setAttribute("points", "");
+    if (area) area.setAttribute("d", "");
+    if (dots) dots.innerHTML = "";
 }
 
 drawChart();
 </script>
-    <!-- OSIRIS V8 AGGREGATE ANALYTICS -->
-<section id="osiris-v8-analytics" style="
-    margin:20px;
-    padding:25px;
-    background:#080d14;
-    border:1px solid #00e5ff;
-    border-radius:12px;
-    color:#00e5ff;
-    font-family:monospace;
-">
-    <h2>OSIRIS // LIVE ANALYTICS</h2>
-    <p style="color:#8a9aaa">
-        Public aggregate statistics
-    </p>
 
-    <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-        gap:15px;
-        margin-top:20px;
-    ">
-        <div style="padding:20px;background:#101923;border-radius:8px;">
-            <small>TOTAL VISITS</small>
-            <h1 id="osiris-total-visits">0</h1>
-        </div>
-
-        <div style="padding:20px;background:#101923;border-radius:8px;">
-            <small>VIDEO PLAYS</small>
-            <h1 id="osiris-total-plays">0</h1>
-        </div>
-
-        <div style="padding:20px;background:#101923;border-radius:8px;">
-            <small>CONNECTION</small>
-            <h3 id="osiris-db-status">WAITING</h3>
-        </div>
-    </div>
-
-    <button id="osiris-refresh" style="
-        margin-top:20px;
-        padding:12px 18px;
-        background:#00e5ff;
-        color:#000;
-        border:0;
-        border-radius:5px;
-        cursor:pointer;
-        font-weight:bold;
-    ">REFRESH DATA</button>
-
-    <p id="osiris-db-message" style="margin-top:15px;color:#9aabbc;">
-        Statistik agregat. Tidak menampilkan identitas pengunjung.
-    </p>
-</section>
-
-
+<!-- SUPABASE ANALYTICS -->
 <script>
 (async function () {
-    const SUPABASE_URL = "https://npbgwnhihfvfvmxxukgl.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_mRl2yxymcchXsgcfWGD2Zg_oY8D_6J1";
+
+    const SUPABASE_URL =
+        "https://npbgwnhihfvfvmxxukgl.supabase.co";
+
+    const SUPABASE_KEY =
+        "sb_publishable_mRl2yxymcchXsgcfWGD2Zg_o8D_6J1";
 
     const status = document.getElementById("osiris-db-status");
     const visits = document.getElementById("osiris-total-visits");
@@ -330,48 +565,79 @@ drawChart();
     );
 
     async function loadStats() {
+
         status.textContent = "CONNECTING";
         message.textContent = "Mengambil statistik...";
 
         try {
-            const { data, error } = await client.rpc("osiris_public_stats");
+
+            const { data, error } =
+                await client.rpc("osiris_public_stats");
 
             if (error) throw error;
 
-            visits.textContent = Number(data.total_visits || 0).toLocaleString();
-plays.textContent = Number(data.total_video_plays || 0).toLocaleString();
+            const totalVisits =
+                Number(data.total_visits || 0);
 
-const totalVisits = Number(data.total_visits || 0);
-const totalPlays = Number(data.total_video_plays || 0);
+            const totalPlays =
+                Number(data.total_video_plays || 0);
 
-const rateElement = document.getElementById("rate");
+            visits.textContent =
+                totalVisits.toLocaleString();
 
-if (rateElement) {
-    rateElement.textContent = totalVisits > 0
-        ? ((totalPlays / totalVisits) * 100).toFixed(1) + "%"
-        : "0%";
-}
+            plays.textContent =
+                totalPlays.toLocaleString();
 
-const mainVisits = document.getElementById("visits");
-const mainPlays = document.getElementById("plays");
+            const rateElement =
+                document.getElementById("rate");
 
-if (mainVisits) mainVisits.textContent = totalVisits.toLocaleString();
-if (mainPlays) mainPlays.textContent = totalPlays.toLocaleString();
+            if (rateElement) {
+                rateElement.textContent =
+                    totalVisits > 0
+                    ? ((totalPlays / totalVisits) * 100).toFixed(1) + "%"
+                    : "0%";
+            }
 
-status.textContent = "CONNECTED";
-message.textContent = "Statistik agregat berhasil dimuat.";
+            const mainVisits =
+                document.getElementById("visits");
+
+            const mainPlays =
+                document.getElementById("plays");
+
+            if (mainVisits) {
+                mainVisits.textContent =
+                    totalVisits.toLocaleString();
+            }
+
+            if (mainPlays) {
+                mainPlays.textContent =
+                    totalPlays.toLocaleString();
+            }
+
+            status.textContent = "CONNECTED";
+            message.textContent =
+                "Statistik agregat berhasil dimuat.";
+
         } catch (error) {
+
             status.textContent = "ERROR";
-            message.textContent = "Koneksi gagal: " + error.message;
+            message.textContent =
+                "Koneksi gagal: " + error.message;
+
         }
     }
 
     refresh.addEventListener("click", loadStats);
+
     loadStats();
+
 })();
 </script>
-    <script>
+
+<!-- LOCAL DEVICE INFO -->
+<script>
 (function () {
+
     const browser = navigator.userAgent;
     let browserName = "Unknown";
 
@@ -381,7 +647,9 @@ message.textContent = "Statistik agregat berhasil dimuat.";
     else if (browser.includes("Firefox/")) browserName = "Firefox";
     else if (browser.includes("Safari/")) browserName = "Safari";
 
-    document.getElementById("deviceBrowser").textContent = browserName;
+    document.getElementById("deviceBrowser").textContent =
+        browserName;
+
     document.getElementById("devicePlatform").textContent =
         navigator.platform || "Unknown";
 
@@ -393,80 +661,24 @@ message.textContent = "Statistik agregat berhasil dimuat.";
 
     document.getElementById("deviceTimezone").textContent =
         Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+
 })();
 </script>
-    <section class="section">
-    <h2>VISITOR CONSENT STATUS</h2>
 
-    <div class="panel activity">
-        <div class="row">
-            <span>Camera Session</span>
-            <span>NOT CONNECTED</span>
-        </div>
-
-        <div class="row">
-            <span>Location Sharing</span>
-            <span>NOT SHARED</span>
-        </div>
-
-        <div class="row">
-            <span>Data Sharing</span>
-            <span>AGGREGATE ONLY</span>
-        </div>
-    </div>
-</section>
-    <section class="section">
-    <h2>OSIRIS // LOCATION MAP</h2>
-
-  <div class="panel">
-      <div class="geo-search">
-    <input
-        type="text"
-        id="addressSearch"
-        placeholder="Cari jalan, desa, kampung, atau perumahan..."
-    >
-
-    <button onclick="searchAddress()">
-        SEARCH LOCATION
-    </button>
-</div>
-    <div id="osirisMap"
-         style="width:100%;height:400px;border-radius:12px;">
-    </div>
-
-    <div class="geo-info">
-        <div class="geo-card">
-            <span>MAP LATITUDE</span>
-            <strong id="mapLatitude">-6.200000</strong>
-        </div>
-
-        <div class="geo-card">
-            <span>MAP LONGITUDE</span>
-            <strong id="mapLongitude">106.816600</strong>
-        </div>
-
-        <div class="geo-card">
-            <span>MAP STATUS</span>
-            <strong id="geoStatus">MAP READY</strong>
-        </div>
-    </div>
-
-    <div class="geo-card" style="margin-top:12px;">
-        <span>LOCATION ADDRESS</span>
-        <strong id="locationAddress">Jakarta, Indonesia</strong>
-    </div>
-
-    <p id="mapStatus">MAP ACTIVE — READY</p>
-</div>
-</section>
- <script>
+<!-- MAP -->
+<script>
 (function () {
-    const mapElement = document.getElementById("osirisMap");
-    const statusElement = document.getElementById("mapStatus");
+
+    const mapElement =
+        document.getElementById("osirisMap");
+
+    const statusElement =
+        document.getElementById("mapStatus");
 
     if (!mapElement || !window.L) {
         if (statusElement) {
-            statusElement.textContent = "MAP ERROR — LIBRARY NOT AVAILABLE";
+            statusElement.textContent =
+                "MAP ERROR — LIBRARY NOT AVAILABLE";
         }
         return;
     }
@@ -479,71 +691,105 @@ message.textContent = "Statistik agregat berhasil dimuat.";
         12
     );
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "&copy; OpenStreetMap contributors"
-    }).addTo(map);
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 19,
+            attribution: "&copy; OpenStreetMap contributors"
+        }
+    ).addTo(map);
 
-    const marker = L.marker([defaultLat, defaultLng])
-        .addTo(map)
-        .bindPopup("OSIRIS — Selected Map Point");
+    const marker = L.marker(
+        [defaultLat, defaultLng]
+    ).addTo(map);
 
-    
-    statusElement.textContent = "MAP ACTIVE — SEARCH READY";
-window.searchAddress = async function () {
-    const input = document.getElementById("addressSearch");
-    const address = input.value.trim();
+    marker.bindPopup("OSIRIS — Selected Map Point");
 
-    if (!address) {
-        alert("Masukkan alamat terlebih dahulu.");
-        return;
-    }
+    statusElement.textContent =
+        "MAP ACTIVE — SEARCH READY";
 
-    const status = document.getElementById("mapStatus");
-    status.textContent = "SEARCHING LOCATION...";
+    window.searchAddress = async function () {
 
-    try {
-        const url =
-            "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
-            encodeURIComponent(address);
+        const input =
+            document.getElementById("addressSearch");
 
-        const response = await fetch(url);
-        const results = await response.json();
+        const address =
+            input.value.trim();
 
-        if (!results.length) {
-            status.textContent = "LOCATION NOT FOUND";
+        if (!address) {
+            alert("Masukkan alamat terlebih dahulu.");
             return;
         }
 
-        const result = results[0];
-        const lat = Number(result.lat);
-        const lng = Number(result.lon);
+        statusElement.textContent =
+            "SEARCHING LOCATION...";
 
-        map.setView([lat, lng], 17);
-        marker.setLatLng([lat, lng]);
+        try {
 
-        document.getElementById("mapLatitude").textContent =
-            lat.toFixed(6);
+            const url =
+                "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+                encodeURIComponent(address);
 
-        document.getElementById("mapLongitude").textContent =
-            lng.toFixed(6);
+            const response = await fetch(url);
 
-        document.getElementById("locationAddress").textContent =
-            result.display_name;
+            if (!response.ok) {
+                throw new Error("Search request failed");
+            }
 
-        document.getElementById("geoStatus").textContent =
-            "LOCATION FOUND";
+            const results = await response.json();
 
-        marker.bindPopup(result.display_name).openPopup();
+            if (!results.length) {
+                statusElement.textContent =
+                    "LOCATION NOT FOUND";
+                return;
+            }
 
-        status.textContent = "ADDRESS FOUND — MAP UPDATED";
+            const result = results[0];
 
-    } catch (error) {
-        status.textContent = "SEARCH FAILED";
-    }
-};
+            const lat = Number(result.lat);
+            const lng = Number(result.lon);
+
+            map.setView([lat, lng], 17);
+
+            marker.setLatLng([lat, lng]);
+
+            document.getElementById("mapLatitude").textContent =
+                lat.toFixed(6);
+
+            document.getElementById("mapLongitude").textContent =
+                lng.toFixed(6);
+
+            document.getElementById("locationAddress").textContent =
+                result.display_name;
+
+            document.getElementById("geoStatus").textContent =
+                "LOCATION FOUND";
+
+            marker.bindPopup(
+                result.display_name
+            ).openPopup();
+
+            statusElement.textContent =
+                "ADDRESS FOUND — MAP UPDATED";
+
+        } catch (error) {
+
+            statusElement.textContent =
+                "SEARCH FAILED";
+
+        }
+
+    };
+
+    document.getElementById("addressSearch")
+        .addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                window.searchAddress();
+            }
+        });
+
 })();
 </script>
-</script>
+
 </body>
 </html>
