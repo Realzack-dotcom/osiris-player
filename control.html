@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSIRIS CONTROL CENTER</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #05080d;
+    color: #d8faff;
+    font-family: Consolas, monospace;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(rgba(0,234,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(0,234,255,.025) 1px, transparent 1px);
+    background-size: 35px 35px;
+    pointer-events: none;
+}
+
+header {
+    padding: 20px 30px;
+    border-bottom: 1px solid #14313d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #00eaff;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.status {
+    color: #00ff9c;
+    font-size: 11px;
+}
+
+main {
+    max-width: 1150px;
+    margin: auto;
+    padding: 65px 20px;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.hero h1 {
+    color: #00eaff;
+    font-size: clamp(28px, 6vw, 58px);
+    letter-spacing: 8px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    color: #627b8c;
+    font-size: 12px;
+    letter-spacing: 3px;
+}
+
+.line {
+    width: 100px;
+    height: 2px;
+    background: #00eaff;
+    margin: 25px auto;
+    box-shadow: 0 0 15px #00eaff;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #0a1119;
+    border: 1px solid #163746;
+    padding: 25px;
+    min-height: 230px;
+    transition: .25s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    border-color: #00eaff;
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px rgba(0,234,255,.08);
+}
+
+.number {
+    font-size: 11px;
+    color: #496575;
+    letter-spacing: 3px;
+}
+
+.icon {
+    font-size: 32px;
+    margin: 25px 0;
+}
+
+.card h2 {
+    font-size: 16px;
+    color: #00eaff;
+    letter-spacing: 2px;
+}
+
+.card p {
+    font-size: 11px;
+    color: #718695;
+    line-height: 1.8;
+}
+
+.open {
+    margin-top: 20px;
+    color: #00ff9c;
+    font-size: 11px;
+}
+
+.terminal {
+    margin-top: 35px;
+    padding: 18px;
+    background: #030609;
+    border: 1px solid #122733;
+    font-size: 11px;
+    line-height: 2;
+    color: #00c9a7;
+}
+
+footer {
+    text-align: center;
+    border-top: 1px solid #122733;
+    padding: 25px;
+    color: #415766;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+@media(max-width:800px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    main {
+        padding-top: 40px;
+    }
+
+    header {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">OSIRIS</div>
+    <div class="status">● SYSTEM ONLINE</div>
+</header>
+
+<main>
+
+<section class="hero">
+    <h1>CONTROL CENTER</h1>
+    <p>DIGITAL SYSTEM INTERFACE</p>
+    <div class="line"></div>
+    <p>SELECT A MODULE TO CONTINUE</p>
+</section>
+
+<section class="cards">
+
+    <a class="card" href="./index.html">
+        <div class="number">MODULE 01</div>
+        <div class="icon">▶</div>
+        <h2>VIDEO PLAYER</h2>
+        <p>Open the OSIRIS video player interface.</p>
+        <div class="open">ACCESS MODULE →</div>
+    </a>
+
+    <a class="card" href="./dashboard.html">
+        <div class="number">MODULE 02</div>
+        <div class="icon">▤</div>
+        <h2>ANALYTICS</h2>
+        <p>Website aggregate statistics dashboard.</p>
+        <div class="open">ACCESS MODULE →</div>
+    </a>
+
+    <a class="card" href="./monitor.html">
+        <div class="number">MODULE 03</div>
+        <div class="icon">⌖</div>
+        <h2>MONITOR</h2>
+        <p>Cyber monitoring interface simulation.</p>
+        <div class="open">ACCESS MODULE →</div>
+    </a>
+
+</section>
+
+<div class="terminal" id="terminal">
+    &gt; OSIRIS control center initialized.<br>
+    &gt; Modules loaded: 03<br>
+    &gt; System status: ONLINE<br>
+    &gt; Ready.
+</div>
+
+</main>
+
+<footer>
+    OSIRIS CONTROL CENTER // SYSTEM INTERFACE
+</footer>
+
+</body>
+</html>
