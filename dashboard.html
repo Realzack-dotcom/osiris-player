@@ -1,126 +1,168 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OSIRIS ANALYTICS</title>
+<title>OSIRIS Analytics</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background: #05080d;
-    color: #00f0ff;
-    font-family: Consolas, monospace;
-    padding: 20px;
-}
-
-header {
-    border-bottom: 1px solid #00f0ff;
-    padding-bottom: 15px;
-    margin-bottom: 25px;
-}
-
-h1 {
-    letter-spacing: 4px;
-}
-
-.subtitle {
-    color: #64748b;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-}
-
-.card {
-    background: #0b111b;
-    border: 1px solid #123c4b;
-    padding: 22px;
-    border-radius: 10px;
-}
-
-.card h3 {
-    color: #8ba3b5;
-    font-size: 13px;
-}
-
-.value {
-    font-size: 32px;
-    font-weight: bold;
-    margin-top: 15px;
-}
-
-.status {
-    color: #ffc857;
-    margin-top: 10px;
-    font-size: 12px;
-}
-
-.panel {
-    background: #0b111b;
-    border: 1px solid #123c4b;
-    padding: 20px;
-    margin-top: 20px;
-    border-radius: 10px;
-}
-
-footer {
-    color: #526173;
-    font-size: 12px;
-    margin-top: 30px;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#05080d;color:#dce6f2;font-family:Consolas,monospace}
+header{padding:22px 6%;border-bottom:1px solid #18303c;display:flex;justify-content:space-between}
+.logo{color:#00ffd0;font-weight:bold;letter-spacing:4px;font-size:22px}
+.online{color:#00ff9c;font-size:12px}
+main{max-width:1300px;margin:auto;padding:35px 20px}
+h1{font-size:32px;margin-bottom:10px}
+.sub{color:#75889b;font-size:13px;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
+.card{background:#0a1018;border:1px solid #18313d;padding:22px}
+.label{color:#8294a5;font-size:12px}
+.value{font-size:32px;color:#00ffd0;margin:16px 0}
+.note{color:#607588;font-size:12px}
+.section{margin-top:25px}
+.section h2{font-size:15px;color:#00ffd0;margin-bottom:15px}
+.panel{background:#0a1018;border:1px solid #18313d;padding:20px}
+.chart{height:220px;width:100%}
+.chart svg{width:100%;height:100%;overflow:visible}
+.gridline{stroke:#1a303c;stroke-width:1}
+.chartline{fill:none;stroke:#00ffd0;stroke-width:3}
+.chartfill{fill:url(#fill);opacity:.18}
+.dot{fill:#00ffd0}
+.activity{display:grid;gap:12px}
+.row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid #152631;padding:12px 0;font-size:12px}
+.row span:first-child{color:#9db0c2}
+.row span:last-child{color:#00ff9c}
+button{background:#00ffd0;color:#061011;border:0;padding:12px 18px;font-weight:bold;font-family:inherit;cursor:pointer}
+button:hover{opacity:.8}
+footer{padding:30px;text-align:center;color:#4f6170;font-size:11px}
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>OSIRIS // ANALYTICS</h1>
-    <div class="subtitle">SYSTEM MONITORING DASHBOARD</div>
+<div class="logo">OSIRIS / ANALYTICS</div>
+<div class="online">● DEMO MODE</div>
 </header>
 
+<main>
+
+<h1>Analytics Dashboard</h1>
+<p class="sub">Aggregate statistics visualization // Demo data only</p>
+
 <div class="grid">
-
-    <div class="card">
-        <h3>TOTAL VISITS</h3>
-        <div class="value" id="visits">--</div>
-        <div class="status">Aggregate visit counter</div>
-    </div>
-
-    <div class="card">
-        <h3>VIDEO PLAYS</h3>
-        <div class="value" id="plays">--</div>
-        <div class="status">Aggregate playback counter</div>
-    </div>
-
-    <div class="card">
-        <h3>DEVICE OVERVIEW</h3>
-        <div class="value" id="devices">--</div>
-        <div class="status">Device statistics unavailable</div>
-    </div>
-
-    <div class="card">
-        <h3>SYSTEM STATUS</h3>
-        <div class="value">ONLINE</div>
-        <div class="status">Dashboard interface loaded</div>
-    </div>
-
+<div class="card">
+<div class="label">TOTAL VISITS</div>
+<div class="value" id="visits">1284</div>
+<div class="note">Demo counter</div>
 </div>
 
-<div class="panel">
-    <h3>ACTIVITY</h3>
-    <p id="activity">Analytics backend has not been connected.</p>
+<div class="card">
+<div class="label">VIDEO PLAYS</div>
+<div class="value" id="plays">846</div>
+<div class="note">Demo counter</div>
 </div>
+
+<div class="card">
+<div class="label">PLAY RATE</div>
+<div class="value" id="rate">65.8%</div>
+<div class="note">Illustrative ratio</div>
+</div>
+
+<div class="card">
+<div class="label">SYSTEM STATUS</div>
+<div class="value" style="font-size:23px">ACTIVE</div>
+<div class="note">Interface available</div>
+</div>
+</div>
+
+<section class="section">
+<h2>ACTIVITY OVERVIEW</h2>
+<div class="panel chart">
+<svg viewBox="0 0 700 220" preserveAspectRatio="none">
+<defs>
+<linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#00ffd0"/>
+<stop offset="100%" stop-color="#00ffd0" stop-opacity="0"/>
+</linearGradient>
+</defs>
+
+<line x1="0" y1="30" x2="700" y2="30" class="gridline"/>
+<line x1="0" y1="80" x2="700" y2="80" class="gridline"/>
+<line x1="0" y1="130" x2="700" y2="130" class="gridline"/>
+<line x1="0" y1="180" x2="700" y2="180" class="gridline"/>
+
+<path id="area" class="chartfill"/>
+<polyline id="line" class="chartline"/>
+<g id="dots"></g>
+</svg>
+</div>
+</section>
+
+<section class="section">
+<h2>ACTIVITY LOG</h2>
+<div class="panel activity" id="logs">
+<div class="row"><span>Analytics interface initialized</span><span>READY</span></div>
+<div class="row"><span>Demo data loaded</span><span>SUCCESS</span></div>
+<div class="row"><span>Visualization engine</span><span>ACTIVE</span></div>
+<div class="row"><span>Personal tracking</span><span>DISABLED</span></div>
+</div>
+</section>
+
+<section class="section">
+<button onclick="refreshDemo()">REFRESH DEMO DATA</button>
+</section>
+
+</main>
 
 <footer>
-    OSIRIS ANALYTICS // AGGREGATE DATA ONLY
+OSIRIS ANALYTICS // SIMULATED DATA // NO INDIVIDUAL TRACKING
 </footer>
+
+<script>
+function drawChart(){
+    const values=Array.from({length:14},()=>Math.floor(Math.random()*75)+20);
+    const points=values.map((v,i)=>{
+        const x=i*(700/13);
+        const y=190-v*2;
+        return `${x},${y}`;
+    }).join(" ");
+
+    document.getElementById("line").setAttribute("points",points);
+
+    document.getElementById("area").setAttribute(
+        "d",`M 0,200 L ${points.replaceAll(" ", " L ")} L 700,200 Z`
+    );
+
+    document.getElementById("dots").innerHTML=values.map((v,i)=>{
+        const x=i*(700/13);
+        const y=190-v*2;
+        return `<circle class="dot" cx="${x}" cy="${y}" r="3"/>`;
+    }).join("");
+}
+
+function refreshDemo(){
+    const visits=Math.floor(Math.random()*5000)+500;
+    const plays=Math.floor(Math.random()*visits);
+
+    document.getElementById("visits").textContent=visits.toLocaleString();
+    document.getElementById("plays").textContent=plays.toLocaleString();
+    document.getElementById("rate").textContent=
+        ((plays/visits)*100).toFixed(1)+"%";
+
+    drawChart();
+
+    const logs=document.getElementById("logs");
+    logs.innerHTML=`
+    <div class="row"><span>Demo statistics refreshed</span><span>SUCCESS</span></div>
+    <div class="row"><span>Chart visualization updated</span><span>ACTIVE</span></div>
+    <div class="row"><span>Data source</span><span>SIMULATION</span></div>
+    <div class="row"><span>Individual tracking</span><span>DISABLED</span></div>`;
+}
+
+drawChart();
+</script>
 
 </body>
 </html>
