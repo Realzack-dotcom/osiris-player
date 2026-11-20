@@ -90,6 +90,37 @@ footer{padding:30px;text-align:center;color:#4f6170;font-size:11px}
         grid-template-columns: 1fr;
     }
 }
+    .geo-search {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.geo-search input {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px;
+    background: #080f18;
+    border: 1px solid #00e5ff;
+    border-radius: 8px;
+    color: #ffffff;
+    outline: none;
+}
+
+.geo-search button {
+    padding: 12px 20px;
+    background: #00e5ff;
+    color: #001018;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.geo-search button:hover {
+    opacity: 0.8;
+}
 </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet"
