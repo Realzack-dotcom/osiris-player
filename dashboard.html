@@ -192,6 +192,94 @@ function refreshDemo(){
 
 drawChart();
 </script>
+<!-- OSIRIS V7 DATABASE CONNECTION PANEL -->
+<section id="osiris-v7">
+<style>
+#osiris-v7 {
+    max-width:1100px;
+    margin:25px auto;
+    padding:22px;
+    background:#050b12;
+    color:#00eaff;
+    border:1px solid #00eaff55;
+    border-radius:12px;
+    font-family:monospace;
+}
+#osiris-v7 * { box-sizing:border-box; }
+#osiris-v7 .v7-title {
+    font-size:18px;
+    letter-spacing:3px;
+}
+#osiris-v7 .v7-sub {
+    color:#7195a5;
+    font-size:11px;
+    margin:10px 0 20px;
+}
+#osiris-v7 .v7-card {
+    background:#09141e;
+    border:1px solid #153746;
+    border-radius:8px;
+    padding:16px;
+}
+#osiris-v7 .v7-label {
+    color:#7896a6;
+    font-size:10px;
+}
+#osiris-v7 .v7-status {
+    font-size:18px;
+    margin-top:12px;
+    font-weight:bold;
+}
+#osiris-v7 .v7-detail {
+    color:#7896a6;
+    font-size:11px;
+    line-height:1.8;
+    margin-top:12px;
+}
+#osiris-v7 .v7-button {
+    margin-top:15px;
+    background:#071722;
+    border:1px solid #00eaff;
+    color:#00eaff;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+#osiris-v7 .v7-button:hover {
+    background:#00eaff15;
+}
+</style>
 
+<div class="v7-title">OSIRIS // DATABASE CONNECTIVITY</div>
+<div class="v7-sub">PUBLIC CONNECTION STATUS • V7</div>
+
+<div class="v7-card">
+    <div class="v7-label">DATABASE CONNECTION</div>
+    <div class="v7-status" id="v7-status">NOT CONFIGURED</div>
+    <div class="v7-detail" id="v7-detail">
+        Database connection has not been configured.
+    </div>
+
+    <button class="v7-button" id="v7-check">
+        CHECK CONNECTION
+    </button>
+</div>
+</section>
+
+<script>
+(() => {
+    const status = document.getElementById("v7-status");
+    const detail = document.getElementById("v7-detail");
+    const button = document.getElementById("v7-check");
+
+    button.addEventListener("click", () => {
+        status.textContent = "CONFIGURATION REQUIRED";
+        status.style.color = "#ffbd44";
+
+        detail.textContent =
+            "This interface is ready. Supabase credentials and database permissions must be configured before live statistics can be displayed.";
+    });
+})();
+</script>
 </body>
 </html>
