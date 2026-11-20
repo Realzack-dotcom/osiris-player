@@ -861,5 +861,184 @@ document.querySelectorAll("nav a, .module").forEach(link => {
     setInterval(addLog, 4000);
 })();
 </script>
+    <!-- OSIRIS V5 ANALYTICS -->
+<script>
+(() => {
+    if (document.getElementById("osiris-v5")) return;
+
+    const panel = document.createElement("section");
+    panel.id = "osiris-v5";
+
+    panel.innerHTML = `
+    <style>
+      #osiris-v5 {
+        margin: 25px auto;
+        max-width: 1100px;
+        padding: 20px;
+        background: #060b12;
+        color: #00eaff;
+        border: 1px solid #00eaff55;
+        border-radius: 12px;
+        font-family: monospace;
+        box-shadow: 0 0 25px #00eaff10;
+      }
+      #osiris-v5 * { box-sizing: border-box; }
+      #osiris-v5 .head {
+        display:flex; justify-content:space-between;
+        align-items:center; gap:12px; flex-wrap:wrap;
+      }
+      #osiris-v5 h2 { font-size:18px; letter-spacing:3px; }
+      #osiris-v5 button {
+        background:#071722; color:#00eaff;
+        border:1px solid #00eaff; padding:9px 14px;
+        cursor:pointer; border-radius:5px;
+      }
+      #osiris-v5 button:hover { background:#00eaff22; }
+      #osiris-v5 .sub { color:#7095a8; font-size:11px; margin:8px 0 20px; }
+      #osiris-v5 .cards {
+        display:grid; grid-template-columns:repeat(3,1fr); gap:12px;
+      }
+      #osiris-v5 .card {
+        background:#09141e; border:1px solid #153546;
+        padding:16px; border-radius:8px;
+      }
+      #osiris-v5 .label { color:#7996a6; font-size:10px; }
+      #osiris-v5 .number { font-size:26px; margin-top:10px; font-weight:bold; }
+      #osiris-v5 .status { font-size:10px; color:#00ff9c; margin-top:8px; }
+      #osiris-v5 .section { margin-top:22px; font-size:11px; letter-spacing:2px; }
+      #osiris-v5 .graph {
+        height:180px; margin-top:10px; padding:15px 5px 25px;
+        display:flex; align-items:flex-end; gap:10px;
+        border:1px solid #153546; background:#03080d;
+      }
+      #osiris-v5 .column {
+        flex:1; min-width:0; position:relative;
+        background:linear-gradient(to top,#007c94,#00eaff);
+        border-radius:3px 3px 0 0; transition:height .4s;
+      }
+      #osiris-v5 .column span {
+        position:absolute; bottom:-20px; left:50%;
+        transform:translateX(-50%); font-size:9px; color:#7895a5;
+      }
+      #osiris-v5 .modules {
+        display:grid; grid-template-columns:repeat(2,1fr);
+        gap:10px; margin-top:12px;
+      }
+      #osiris-v5 .module {
+        background:#09141e; padding:12px;
+        border:1px solid #153546; font-size:11px;
+      }
+      #osiris-v5 .green { color:#00ff9c; }
+      #osiris-v5 .footer {
+        color:#668899; font-size:10px; margin-top:18px;
+      }
+      @media(max-width:600px) {
+        #osiris-v5 .cards { grid-template-columns:1fr; }
+        #osiris-v5 .modules { grid-template-columns:1fr; }
+        #osiris-v5 h2 { font-size:15px; }
+      }
+    </style>
+
+    <div class="head">
+      <h2>OSIRIS // ANALYTICS</h2>
+      <button id="v5-refresh">↻ REFRESH</button>
+    </div>
+
+    <div class="sub">AGGREGATED METRICS • DASHBOARD OVERVIEW</div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="label">TOTAL VISITS</div>
+        <div class="number" id="v5-visits">--</div>
+        <div class="status">AGGREGATE METRIC</div>
+      </div>
+      <div class="card">
+        <div class="label">VIDEO PLAYS</div>
+        <div class="number" id="v5-plays">--</div>
+        <div class="status">AGGREGATE METRIC</div>
+      </div>
+      <div class="card">
+        <div class="label">DASHBOARD STATUS</div>
+        <div class="number green" id="v5-status">READY</div>
+        <div class="status">● UI ACTIVE</div>
+      </div>
+    </div>
+
+    <div class="section">7-DAY ACTIVITY OVERVIEW</div>
+    <div class="graph" id="v5-graph"></div>
+
+    <div class="section">MODULE STATUS</div>
+    <div class="modules">
+      <div class="module">VIDEO PLAYER <span class="green">● READY</span></div>
+      <div class="module">CONTROL CENTER <span class="green">● READY</span></div>
+      <div class="module">ANALYTICS <span class="green">● READY</span></div>
+      <div class="module">VISUAL MONITOR <span class="green">● READY</span></div>
+    </div>
+
+    <div class="footer" id="v5-footer">
+      Activity chart is illustrative. Aggregate data connection pending.
+    </div>
+    `;
+
+    const target = document.querySelector(".container") || document.body;
+    target.appendChild(panel);
+
+    const graph = document.getElementById("v5-graph");
+    const labels = ["MON","TUE","WED","THU","FRI","SAT","SUN"];
+
+    labels.forEach(label => {
+        const col = document.createElement("div");
+        col.className = "column";
+        col.style.height = (15 + Math.random() * 85) + "%";
+        col.innerHTML = `<span>${label}</span>`;
+        graph.appendChild(col);
+    });
+
+    function refreshChart() {
+        graph.querySelectorAll(".column").forEach(col => {
+            col.style.height = (15 + Math.random() * 85) + "%";
+        });
+    }
+
+    async function refreshStats() {
+        const status = document.getElementById("v5-status");
+        const footer = document.getElementById("v5-footer");
+
+        status.textContent = "LOADING";
+
+        try {
+            if (!window.supabase) throw new Error("Supabase client unavailable");
+
+            const client = window.supabase;
+
+            const { data, error } = await client.rpc("osiris_public_stats");
+
+            if (error) throw error;
+
+            document.getElementById("v5-visits").textContent =
+                data.total_visits ?? 0;
+
+            document.getElementById("v5-plays").textContent =
+                data.total_video_plays ?? 0;
+
+            status.textContent = "LIVE";
+            footer.textContent = "Aggregate statistics loaded successfully.";
+        } catch (err) {
+            document.getElementById("v5-visits").textContent = "DEMO";
+            document.getElementById("v5-plays").textContent = "DEMO";
+            status.textContent = "DEMO MODE";
+            footer.textContent =
+                "Live aggregate connection is not configured on this page. Chart is simulated.";
+        }
+    }
+
+    document.getElementById("v5-refresh").addEventListener("click", () => {
+        refreshChart();
+        refreshStats();
+    });
+
+    refreshStats();
+})();
+</script>
 </body>
 </html>
