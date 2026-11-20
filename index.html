@@ -2,137 +2,161 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Player</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OSIRIS | Video Player</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #111;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-    }
-
-    .player {
-      width: 100%;
-      max-width: 900px;
-      padding: 16px;
-    }
-
-    video {
-      display: block;
-      width: 100%;
-      max-height: 85vh;
-      background: #000;
-      border-radius: 12px;
-    }
-    .navbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 15px 5%;
-    background: #070c12;
-    border-bottom: 1px solid #18313c;
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    background:#05080d;
+    color:#dce6f2;
+    font-family:Consolas,monospace;
 }
-
-.navbar a {
-    color: #8095a8;
-    text-decoration: none;
-    font-family: Consolas, monospace;
-    font-size: 12px;
-    padding: 10px 15px;
-    border: 1px solid #1a303b;
-    transition: .2s;
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 5%;
+    background:#080d13;
+    border-bottom:1px solid #18313c;
 }
-
-.navbar a:hover {
-    color: #00ffd0;
-    border-color: #00ffd0;
-    background: #00ffd008;
+.logo{color:#00ffd0;font-size:22px;font-weight:bold;letter-spacing:4px}
+.status{color:#00ff9c;font-size:11px}
+nav{
+    display:flex;flex-wrap:wrap;gap:8px;
+    padding:14px 5%;border-bottom:1px solid #17303b;
 }
-  </style>
-  <style>
-/* OSIRIS CYBER UI */
-body {
-    background: #05080d !important;
-    color: #00eaff !important;
-    font-family: Consolas, monospace !important;
+nav a{
+    color:#8095a8;text-decoration:none;font-size:11px;
+    border:1px solid #1a303b;padding:10px 13px;
 }
-
-video {
-    border: 1px solid rgba(0, 238, 255, 0.4) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 0 25px rgba(0, 238, 255, 0.12) !important;
-    background: #000 !important;
-    max-width: 100%;
+nav a:hover{color:#00ffd0;border-color:#00ffd0}
+main{max-width:1100px;margin:auto;padding:35px 20px}
+h1{font-size:32px;margin-bottom:12px}
+.subtitle{color:#73879a;font-size:13px;line-height:1.7;margin-bottom:25px}
+.player{
+    background:#000;border:1px solid #19313d;
+    overflow:hidden;
 }
-
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-        to bottom,
-        transparent 0px,
-        rgba(0, 255, 255, 0.025) 1px,
-        transparent 3px
-    );
-    z-index: 9998;
+video{
+    display:block;width:100%;max-height:70vh;
+    background:#000;
 }
-
-.cyber-status {
-    color: #00ff9c;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-align: center;
-    margin: 15px 0;
+.details{
+    margin-top:18px;background:#0a1018;
+    border:1px solid #19313d;padding:22px;
 }
-
-@media (max-width: 600px) {
-    video {
-        width: 100% !important;
-        height: auto !important;
-    }
+.details h2{font-size:17px;color:#00ffd0;margin-bottom:12px}
+.details p{color:#8093a5;font-size:12px;line-height:1.8}
+.row{
+    display:flex;justify-content:space-between;gap:12px;
+    padding:13px 0;border-bottom:1px solid #172a35;
+    font-size:12px;
+}
+.row span:first-child{color:#8093a5}
+.row span:last-child{color:#00ff9c}
+.notice{
+    margin-top:18px;padding:15px;
+    border:1px solid #203b36;background:#0b1212;
+    color:#92aa9d;font-size:11px;line-height:1.8;
+}
+footer{
+    text-align:center;padding:30px;
+    color:#4c6070;font-size:10px;
+    border-top:1px solid #152a35;margin-top:30px;
+}
+@media(max-width:600px){
+    header{padding:17px}
+    main{padding:25px 15px}
+    h1{font-size:26px}
 }
 </style>
 </head>
 
 <body>
-  <nav class="navbar">
+
+<header>
+    <div class="logo">OSIRIS</div>
+    <div class="status">● MEDIA PLAYER</div>
+</header>
+
+<nav>
     <a href="./control.html">⌂ CONTROL CENTER</a>
     <a href="./index.html">▶ VIDEO PLAYER</a>
     <a href="./dashboard.html">▤ ANALYTICS</a>
     <a href="./monitor.html">⌁ DIGITAL MONITOR</a>
 </nav>
-  <div class="player">
-    <video controls playsinline preload="metadata">
-      <source src="video1.mp4" type="video/mp4">
-      Browser kamu tidak mendukung video.
+
+<main>
+
+<h1>Video Player</h1>
+<p class="subtitle">
+    OSIRIS media interface — pilih video dan gunakan kontrol player untuk memutar.
+</p>
+
+<div class="player">
+    <video controls preload="metadata" playsinline>
+        <source src="./video1.mp4" type="video/mp4">
+        Browser kamu tidak mendukung pemutar video ini.
     </video>
-  </div>
-  <div id="privacy-notice" style="
-  position:fixed;
-  bottom:10px;
-  left:10px;
-  right:10px;
-  padding:12px;
-  background:#111827;
-  color:white;
-  font-size:12px;
-  text-align:center;
-  border-radius:8px;
-  z-index:9999;
-">
-  
 </div>
+
+<section class="details">
+    <h2>MEDIA INFORMATION</h2>
+
+    <div class="row">
+        <span>PLAYER STATUS</span>
+        <span id="playerStatus">READY</span>
+    </div>
+
+    <div class="row">
+        <span>MEDIA FORMAT</span>
+        <span>MP4</span>
+    </div>
+
+    <div class="row">
+        <span>PLAYBACK</span>
+        <span>LOCAL MEDIA</span>
+    </div>
+
+    <div class="row">
+        <span>CAMERA ACCESS</span>
+        <span>NOT USED</span>
+    </div>
+</section>
+
+<div class="notice">
+    Halaman ini digunakan untuk pemutaran video.
+    Kamera dan lokasi pengunjung tidak diakses.
+</div>
+
+</main>
+
+<footer>
+    OSIRIS MEDIA INTERFACE // 2026
+</footer>
+
+<script>
+const video = document.querySelector("video");
+const status = document.getElementById("playerStatus");
+
+video.addEventListener("play", () => {
+    status.textContent = "PLAYING";
+});
+
+video.addEventListener("pause", () => {
+    status.textContent = video.ended ? "COMPLETED" : "PAUSED";
+});
+
+video.addEventListener("ended", () => {
+    status.textContent = "COMPLETED";
+});
+
+video.addEventListener("error", () => {
+    status.textContent = "MEDIA ERROR";
+});
+</script>
+
 </body>
 </html>
