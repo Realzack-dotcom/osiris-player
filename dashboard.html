@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSIRIS ANALYTICS</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #05080d;
+    color: #00f0ff;
+    font-family: Consolas, monospace;
+    padding: 20px;
+}
+
+header {
+    border-bottom: 1px solid #00f0ff;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    letter-spacing: 4px;
+}
+
+.subtitle {
+    color: #64748b;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    background: #0b111b;
+    border: 1px solid #123c4b;
+    padding: 22px;
+    border-radius: 10px;
+}
+
+.card h3 {
+    color: #8ba3b5;
+    font-size: 13px;
+}
+
+.value {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.status {
+    color: #ffc857;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.panel {
+    background: #0b111b;
+    border: 1px solid #123c4b;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+footer {
+    color: #526173;
+    font-size: 12px;
+    margin-top: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>OSIRIS // ANALYTICS</h1>
+    <div class="subtitle">SYSTEM MONITORING DASHBOARD</div>
+</header>
+
+<div class="grid">
+
+    <div class="card">
+        <h3>TOTAL VISITS</h3>
+        <div class="value" id="visits">--</div>
+        <div class="status">Aggregate visit counter</div>
+    </div>
+
+    <div class="card">
+        <h3>VIDEO PLAYS</h3>
+        <div class="value" id="plays">--</div>
+        <div class="status">Aggregate playback counter</div>
+    </div>
+
+    <div class="card">
+        <h3>DEVICE OVERVIEW</h3>
+        <div class="value" id="devices">--</div>
+        <div class="status">Device statistics unavailable</div>
+    </div>
+
+    <div class="card">
+        <h3>SYSTEM STATUS</h3>
+        <div class="value">ONLINE</div>
+        <div class="status">Dashboard interface loaded</div>
+    </div>
+
+</div>
+
+<div class="panel">
+    <h3>ACTIVITY</h3>
+    <p id="activity">Analytics backend has not been connected.</p>
+</div>
+
+<footer>
+    OSIRIS ANALYTICS // AGGREGATE DATA ONLY
+</footer>
+
+</body>
+</html>
