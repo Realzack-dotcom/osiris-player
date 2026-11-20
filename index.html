@@ -35,6 +35,51 @@
       border-radius: 12px;
     }
   </style>
+  <style>
+/* OSIRIS CYBER UI */
+body {
+    background: #05080d !important;
+    color: #00eaff !important;
+    font-family: Consolas, monospace !important;
+}
+
+video {
+    border: 1px solid rgba(0, 238, 255, 0.4) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 0 25px rgba(0, 238, 255, 0.12) !important;
+    background: #000 !important;
+    max-width: 100%;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        rgba(0, 255, 255, 0.025) 1px,
+        transparent 3px
+    );
+    z-index: 9998;
+}
+
+.cyber-status {
+    color: #00ff9c;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-align: center;
+    margin: 15px 0;
+}
+
+@media (max-width: 600px) {
+    video {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+</style>
 </head>
 
 <body>
