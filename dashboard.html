@@ -130,13 +130,29 @@ footer{padding:30px;text-align:center;color:#4f6170;font-size:11px}
 </section>
 
 <section class="section">
-<h2>ACTIVITY LOG</h2>
-<div class="panel activity" id="logs">
-    <div class="row"><span>Analytics interface</span><span>READY</span></div>
-    <div class="row"><span>Aggregate data source</span><span>SUPABASE</span></div>
-    <div class="row"><span>Statistics connection</span><span>CONNECTED</span></div>
-    <div class="row"><span>Individual tracking</span><span>DISABLED</span></div>
-</div>
+    <h2>DEVICE INFO</h2>
+    <div class="panel activity" id="deviceInfo">
+        <div class="row">
+            <span>Browser</span>
+            <span id="deviceBrowser">LOADING</span>
+        </div>
+        <div class="row">
+            <span>Platform</span>
+            <span id="devicePlatform">LOADING</span>
+        </div>
+        <div class="row">
+            <span>Screen Resolution</span>
+            <span id="deviceScreen">LOADING</span>
+        </div>
+        <div class="row">
+            <span>Language</span>
+            <span id="deviceLanguage">LOADING</span>
+        </div>
+        <div class="row">
+            <span>Timezone</span>
+            <span id="deviceTimezone">LOADING</span>
+        </div>
+    </div>
 </section>
 </main>
 
