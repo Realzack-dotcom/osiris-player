@@ -1,182 +1,163 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OSIRIS | Location Consent</title>
+<title>OSIRIS | Consent Center</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    background:#050a10;color:#dce8f2;
+    font-family:Arial,sans-serif;
+    min-height:100vh;display:flex;
+    justify-content:center;align-items:center;padding:20px
 }
-
-body {
-    background: #060b12;
-    color: #d8e6f3;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.container{
+    width:100%;max-width:500px;
+    background:#101923;border:1px solid #00d9ff44;
+    border-radius:16px;padding:25px
 }
-
-.container {
-    width: 100%;
-    max-width: 480px;
-    background: #101923;
-    border: 1px solid #00d9ff55;
-    border-radius: 16px;
-    padding: 28px;
+.logo{color:#00e5ff;letter-spacing:4px;font-size:12px;margin-bottom:20px}
+h1{font-size:24px;margin-bottom:12px}
+.desc{color:#98a9ba;font-size:14px;line-height:1.7}
+.panel{
+    background:#080e15;padding:15px;
+    border-radius:10px;margin-top:18px;
+    font-size:13px;line-height:1.8
 }
-
-.logo {
-    color: #00e5ff;
-    font-size: 13px;
-    letter-spacing: 3px;
-    margin-bottom: 25px;
+button{
+    width:100%;padding:13px;border:0;
+    border-radius:8px;margin-top:10px;
+    cursor:pointer;font-weight:bold
 }
-
-h1 {
-    font-size: 25px;
-    margin-bottom: 12px;
+.primary{background:#00d9ff;color:#061018}
+.secondary{background:#243241;color:white}
+video{
+    width:100%;margin-top:15px;
+    background:#000;border-radius:10px;
+    display:none
 }
-
-.subtitle {
-    color: #93a4b5;
-    font-size: 14px;
-    line-height: 1.6;
-}
-
-.info {
-    margin: 22px 0;
-    padding: 16px;
-    background: #080e15;
-    border-radius: 10px;
-    font-size: 13px;
-    line-height: 1.8;
-}
-
-button {
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    padding: 14px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.primary {
-    background: #00d9ff;
-    color: #061018;
-}
-
-.secondary {
-    background: #202d3b;
-    color: white;
-}
-
-#result {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    background: #080e15;
-    font-size: 13px;
-    line-height: 1.8;
-    overflow-wrap: anywhere;
-}
-
-a {
-    color: #00e5ff;
-}
-
-footer {
-    margin-top: 22px;
-    color: #647789;
-    font-size: 11px;
-    text-align: center;
-}
+#status{margin-top:15px;color:#00e5ff;font-size:13px;line-height:1.8}
+footer{text-align:center;color:#637789;font-size:10px;margin-top:22px}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-    <div class="logo">Vidio random</div>
+<div class="logo">OSIRIS // CONSENT CENTER</div>
 
-    <h1>Location sharing</h1>
+<h1>Device Permissions</h1>
 
-    <p class="subtitle">
-       
-    </p>
+<p class="desc">
+Pilih fitur yang ingin kamu gunakan.
+Izin bersifat opsional dan dapat dihentikan kapan saja.
+Data tidak dikirim ke dashboard tanpa persetujuan terpisah.
+</p>
 
-   
-    <button class="primary" onclick="getLocation()">
-        Lanjut tonton
-    </button>
+<div class="panel">
+<b>DEVICE INFORMATION</b><br>
+Browser: <span id="browser"></span><br>
+Platform: <span id="platform"></span><br>
+Language: <span id="language"></span>
+</div>
 
-   
+<div class="panel">
+<b>LOCATION</b><br>
+Lokasi hanya diminta ketika kamu menekan tombol di bawah.
+<div id="locationStatus">Belum diminta.</div>
+<button class="primary" onclick="requestLocation()">IZINKAN LOKASI</button>
+</div>
 
-    <div id="result">
-        GPS belum diminta.
-    </div>
+<div class="panel">
+<b>CAMERA</b><br>
+Kamera hanya aktif setelah izin diberikan.
+Preview ditampilkan di perangkat ini.
+<video id="camera" autoplay playsinline muted></video>
+<div id="cameraStatus">Kamera tidak aktif.</div>
+<button class="primary" onclick="startCamera()">AKTIFKAN KAMERA</button>
+<button class="secondary" onclick="stopCamera()">MATIKAN KAMERA</button>
+</div>
 
-    <footer>
-        OSIRIS // TRANSPARENT & OPTIONAL
-    </footer>
+<div id="status"></div>
 
+<footer>OSIRIS // PRIVACY & CONSENT</footer>
 </div>
 
 <script>
-function getLocation() {
-    const result = document.getElementById("result");
+document.getElementById("browser").textContent =
+    navigator.userAgent.includes("Edg") ? "Edge" :
+    navigator.userAgent.includes("Chrome") ? "Chrome" :
+    navigator.userAgent.includes("Firefox") ? "Firefox" :
+    navigator.userAgent.includes("Safari") ? "Safari" : "Unknown";
 
-    if (!navigator.geolocation) {
-        result.textContent = "Browser ini tidak mendukung GPS.";
+document.getElementById("platform").textContent =
+    navigator.platform || "Unknown";
+
+document.getElementById("language").textContent =
+    navigator.language || "Unknown";
+
+let cameraStream = null;
+
+function requestLocation(){
+    const el = document.getElementById("locationStatus");
+
+    if(!navigator.geolocation){
+        el.textContent = "GPS tidak didukung browser.";
         return;
     }
 
-    result.textContent = "Menunggu izin lokasi...";
+    el.textContent = "Menunggu izin lokasi...";
 
     navigator.geolocation.getCurrentPosition(
-        function(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            const accuracy = position.coords.accuracy;
-
-            result.innerHTML = `
-                <strong>Lokasi berhasil diperoleh di perangkat ini.</strong><br><br>
-                Latitude: ${lat}<br>
-                Longitude: ${lon}<br>
-                Perkiraan akurasi: ${Math.round(accuracy)} meter<br><br>
-                <a target="_blank" rel="noopener noreferrer"
-                href="https://www.google.com/maps?q=${lat},${lon}">
-                Lihat lokasi saya di peta
-                </a>
-            `;
+        position => {
+            el.textContent =
+                "Lokasi berhasil dibagikan secara lokal. " +
+                "Akurasi: " +
+                Math.round(position.coords.accuracy) + " meter.";
         },
-        function(error) {
-            const messages = {
-                1: "Izin lokasi ditolak.",
-                2: "Lokasi tidak tersedia.",
-                3: "Permintaan lokasi timeout."
-            };
-
-            result.textContent =
-                messages[error.code] || "Lokasi gagal diperoleh.";
+        error => {
+            el.textContent = error.code === 1
+                ? "Izin lokasi ditolak."
+                : "Lokasi tidak tersedia.";
         },
-        {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 0
-        }
+        {enableHighAccuracy:true,timeout:15000,maximumAge:0}
     );
 }
-</script>
 
+async function startCamera(){
+    const status = document.getElementById("cameraStatus");
+    const video = document.getElementById("camera");
+
+    try{
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+            video:true,
+            audio:false
+        });
+
+        video.srcObject = cameraStream;
+        video.style.display = "block";
+        status.textContent = "Kamera aktif pada perangkat ini.";
+    }catch(error){
+        status.textContent = "Kamera tidak diizinkan atau tidak tersedia.";
+    }
+}
+
+function stopCamera(){
+    if(cameraStream){
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+    }
+
+    const video = document.getElementById("camera");
+    video.srcObject = null;
+    video.style.display = "none";
+
+    document.getElementById("cameraStatus").textContent =
+        "Kamera telah dimatikan.";
+}
+</script>
 </body>
 </html>
