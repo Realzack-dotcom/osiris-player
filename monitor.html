@@ -4,276 +4,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OSIRIS // DIGITAL MONITORING</title>
+<title>OSIRIS Digital Monitor</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+    background:#05080d;
+    color:#d9e6f2;
+    font-family:Consolas,monospace;
 }
 
-body {
-    margin: 0;
-    background: #05080d;
-    color: #d6faff;
-    font-family: Consolas, monospace;
+header{
+    padding:20px 5%;
+    background:#080d13;
+    border-bottom:1px solid #17303c;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 
-:root {
-    --cyan: #00eaff;
-    --green: #00ff9c;
-    --red: #ff496c;
-    --panel: #0a111a;
-    --border: #153440;
+.logo{
+    color:#00ffd0;
+    font-size:22px;
+    letter-spacing:4px;
+    font-weight:bold;
 }
 
-header {
-    padding: 20px;
-    background: #080d14;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
+.status{
+    color:#00ff9c;
+    font-size:12px;
 }
 
-.brand {
-    font-size: 22px;
-    font-weight: bold;
-    letter-spacing: 4px;
-    color: var(--cyan);
+main{
+    max-width:1400px;
+    margin:auto;
+    padding:30px 20px;
 }
 
-.sub {
-    font-size: 10px;
-    color: #6d8796;
-    margin-top: 6px;
-    letter-spacing: 2px;
+h1{font-size:30px;margin-bottom:10px}
+
+.subtitle{
+    color:#708598;
+    font-size:13px;
+    margin-bottom:25px;
 }
 
-.badge {
-    border: 1px solid #8b6b20;
-    color: #ffc857;
-    padding: 7px 10px;
-    font-size: 10px;
-    letter-spacing: 1px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
 }
 
-main {
-    max-width: 1400px;
-    margin: auto;
-    padding: 20px;
+.panel{
+    background:#0a1018;
+    border:1px solid #19313e;
+    padding:20px;
 }
 
-.section-title {
-    font-size: 12px;
-    color: var(--cyan);
-    letter-spacing: 3px;
-    margin: 25px 0 12px;
+.panel-title{
+    color:#00ffd0;
+    font-size:13px;
+    margin-bottom:15px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+.metric{
+    color:#00ffd0;
+    font-size:24px;
+    margin:12px 0;
 }
 
-.panel {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    padding: 16px;
-    min-width: 0;
+.muted{
+    color:#6e8397;
+    font-size:12px;
 }
 
-.panel h3 {
-    margin: 0;
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: #7d9aaa;
+.main-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+    gap:18px;
+    margin-top:20px;
 }
 
-.metric {
-    font-size: 25px;
-    color: var(--cyan);
-    margin-top: 18px;
-    font-weight: bold;
+.radar-panel{
+    min-height:390px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
-.small {
-    color: #657b89;
-    font-size: 10px;
-    margin-top: 8px;
-}
-
-.green {
-    color: var(--green);
-}
-
-.yellow {
-    color: #ffc857;
-}
-
-.red {
-    color: var(--red);
-}
-
-.layout {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.radar {
-    min-height: 320px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.radar{
+    position:relative;
+    width:min(280px,70vw);
+    aspect-ratio:1;
+    border-radius:50%;
+    border:1px solid #145347;
     background:
-        linear-gradient(rgba(0,234,255,.04) 1px, transparent 1px),
-        linear-gradient(90deg,rgba(0,234,255,.04) 1px, transparent 1px);
-    background-size: 30px 30px;
-    overflow: hidden;
+    radial-gradient(circle,transparent 20%,#00ffd008 21%,transparent 22%),
+    radial-gradient(circle,transparent 40%,#00ffd012 41%,transparent 42%),
+    radial-gradient(circle,transparent 60%,#00ffd018 61%,transparent 62%),
+    radial-gradient(circle,transparent 80%,#00ffd020 81%,transparent 82%),
+    #06120f;
+    overflow:hidden;
 }
 
-.circle {
-    width: min(240px, 70vw);
-    aspect-ratio: 1;
-    border: 1px solid #174451;
-    border-radius: 50%;
-    position: relative;
-    background: radial-gradient(circle, #07313a 0%, #07131c 65%);
+.radar::before,.radar::after{
+    content:"";
+    position:absolute;
+    background:#17483d;
 }
 
-.circle::before,
-.circle::after {
-    content: "";
-    position: absolute;
-    border: 1px solid #174451;
-    border-radius: 50%;
+.radar::before{
+    width:1px;
+    height:100%;
+    left:50%;
 }
 
-.circle::before {
-    inset: 20%;
+.radar::after{
+    height:1px;
+    width:100%;
+    top:50%;
 }
 
-.circle::after {
-    inset: 40%;
+.sweep{
+    position:absolute;
+    width:50%;
+    height:50%;
+    left:50%;
+    top:0;
+    transform-origin:bottom left;
+    background:linear-gradient(45deg,#00ffd040,transparent 70%);
+    animation:spin 4s linear infinite;
 }
 
-.cross {
-    position: absolute;
-    background: #174451;
+@keyframes spin{
+    to{transform:rotate(360deg)}
 }
 
-.cross.horizontal {
-    height: 1px;
-    left: 0;
-    right: 0;
-    top: 50%;
+.radar-dot{
+    position:absolute;
+    width:5px;
+    height:5px;
+    background:#00ff9c;
+    border-radius:50%;
+    box-shadow:0 0 10px #00ff9c;
 }
 
-.cross.vertical {
-    width: 1px;
-    top: 0;
-    bottom: 0;
-    left: 50%;
+.module{
+    display:flex;
+    justify-content:space-between;
+    padding:13px 0;
+    border-bottom:1px solid #172a35;
+    font-size:12px;
 }
 
-.sweep {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: conic-gradient(
-        from 0deg,
-        transparent 0deg,
-        rgba(0,234,255,.18) 45deg,
-        transparent 80deg
-    );
-    animation: rotate 5s linear infinite;
+.green{color:#00ff9c}
+.yellow{color:#ffd166}
+
+.terminal{
+    margin-top:20px;
+    background:#030608;
+    border:1px solid #19313b;
+    padding:20px;
+    height:210px;
+    overflow:auto;
+    font-size:12px;
+    line-height:2;
 }
 
-@keyframes rotate {
-    to { transform: rotate(360deg); }
+.terminal div{color:#71889a}
+.terminal span{color:#00ff9c}
+
+button{
+    margin-top:18px;
+    padding:12px 18px;
+    background:#00ffd0;
+    border:0;
+    color:#03110f;
+    font-family:inherit;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.dot {
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 12px var(--green);
-    top: 28%;
-    left: 66%;
+button:hover{opacity:.8}
+
+.notice{
+    margin-top:20px;
+    border:1px solid #2b3a29;
+    background:#11140c;
+    padding:15px;
+    color:#c7bd82;
+    font-size:12px;
+    line-height:1.7;
 }
 
-.terminal {
-    height: 250px;
-    overflow: auto;
-    background: #030609;
-    border: 1px solid #102630;
-    padding: 12px;
-    font-size: 11px;
-    line-height: 1.8;
-    color: #00c9a7;
+footer{
+    padding:25px;
+    text-align:center;
+    color:#435563;
+    font-size:11px;
 }
 
-.terminal div {
-    border-bottom: 1px solid #0b171c;
-    padding: 3px 0;
-}
-
-button {
-    border: 1px solid var(--cyan);
-    background: transparent;
-    color: var(--cyan);
-    padding: 10px 15px;
-    font-family: inherit;
-    cursor: pointer;
-    margin-top: 12px;
-}
-
-button:hover {
-    background: rgba(0,234,255,.1);
-}
-
-footer {
-    text-align: center;
-    padding: 25px;
-    font-size: 10px;
-    color: #4d6472;
-    border-top: 1px solid var(--border);
-    margin-top: 30px;
-}
-
-@media(max-width:900px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .layout {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media(max-width:500px) {
-    main {
-        padding: 12px;
-    }
-
-    header {
-        padding: 15px;
-    }
-
-    .brand {
-        font-size: 18px;
-    }
-
-    .metric {
-        font-size: 20px;
-    }
+@media(max-width:800px){
+    .main-grid{grid-template-columns:1fr}
+    header{padding:18px}
+    main{padding:25px 15px}
 }
 </style>
 </head>
@@ -281,147 +216,154 @@ footer {
 <body>
 
 <header>
-    <div>
-        <div class="brand">OSIRIS // MONITOR</div>
-        <div class="sub">DIGITAL MONITORING INTERFACE</div>
-    </div>
-
-    <div class="badge">DEMO MODE — SIMULATED DATA</div>
+    <div class="logo">OSIRIS / MONITOR</div>
+    <div class="status">● SIMULATION ACTIVE</div>
 </header>
 
 <main>
 
-<div class="section-title">SYSTEM OVERVIEW</div>
+<h1>Digital Monitoring Interface</h1>
+<p class="subtitle">System visualization and simulated diagnostics</p>
 
 <div class="grid">
 
     <div class="panel">
-        <h3>CAMERA MODULE</h3>
-        <div class="metric green">DEMO</div>
-        <div class="small">No camera access</div>
+        <div class="panel-title">SYSTEM HEALTH</div>
+        <div class="metric">OPTIMAL</div>
+        <div class="muted">Simulated status</div>
     </div>
 
     <div class="panel">
-        <h3>GPS MODULE</h3>
-        <div class="metric yellow">OFFLINE</div>
-        <div class="small">No location collection</div>
+        <div class="panel-title">DIAGNOSTIC MODULES</div>
+        <div class="metric" id="moduleCount">04 / 04</div>
+        <div class="muted">Visual modules initialized</div>
     </div>
 
     <div class="panel">
-        <h3>NETWORK MODULE</h3>
-        <div class="metric green">LOCAL</div>
-        <div class="small">No visitor IP collection</div>
-    </div>
-
-    <div class="panel">
-        <h3>SYSTEM STATUS</h3>
-        <div class="metric green">ONLINE</div>
-        <div class="small">Simulation running</div>
+        <div class="panel-title">SCAN ENGINE</div>
+        <div class="metric green" id="scanStatus">IDLE</div>
+        <div class="muted">Local animation only</div>
     </div>
 
 </div>
 
-<div class="layout">
+<div class="main-grid">
 
-    <div>
-        <div class="section-title">RADAR SIMULATION</div>
+    <section class="panel radar-panel">
+        <div class="panel-title">RADAR VISUALIZATION</div>
 
-        <div class="panel radar">
-            <div class="circle">
-                <div class="cross horizontal"></div>
-                <div class="cross vertical"></div>
-                <div class="sweep"></div>
-                <div class="dot"></div>
-            </div>
+        <div class="radar" id="radar">
+            <div class="sweep"></div>
+            <div class="radar-dot" style="top:30%;left:65%"></div>
+            <div class="radar-dot" style="top:62%;left:32%"></div>
+            <div class="radar-dot" style="top:72%;left:70%"></div>
+            <div class="radar-dot" style="top:40%;left:22%"></div>
         </div>
 
-        <div class="panel" style="margin-top:12px">
-            <h3>SIMULATION NOTICE</h3>
-            <p class="small">
-                Radar animation is visual only. It does not represent
-                real people, GPS coordinates, cameras, or tracked devices.
-            </p>
-        </div>
-    </div>
+        <p class="muted" style="margin-top:18px">
+            Decorative radar // No real-world scanning
+        </p>
+    </section>
 
-    <div>
-        <div class="section-title">SYSTEM TERMINAL</div>
+    <section class="panel">
+        <div class="panel-title">MODULE STATUS</div>
 
-        <div class="terminal" id="terminal">
-            <div>[SYS] OSIRIS interface initialized.</div>
-            <div>[SYS] Simulation mode enabled.</div>
-            <div>[CAM] Camera module not connected.</div>
-            <div>[GPS] Location module disabled.</div>
-            <div>[NET] No visitor network data collected.</div>
-            <div>[SYS] All demo systems operational.</div>
+        <div class="module">
+            <span>Interface</span>
+            <span class="green">READY</span>
         </div>
 
-        <button onclick="runSimulation()">RUN SYSTEM CHECK</button>
-    </div>
+        <div class="module">
+            <span>Radar animation</span>
+            <span class="green">ACTIVE</span>
+        </div>
+
+        <div class="module">
+            <span>Diagnostics</span>
+            <span class="green">READY</span>
+        </div>
+
+        <div class="module">
+            <span>Data source</span>
+            <span class="yellow">DEMO</span>
+        </div>
+
+        <div class="module">
+            <span>Camera / GPS</span>
+            <span class="yellow">NOT CONNECTED</span>
+        </div>
+
+        <button onclick="runDiagnostic()">RUN SYSTEM CHECK</button>
+    </section>
 
 </div>
 
-<div class="section-title">MODULE INFORMATION</div>
-
-<div class="grid">
-
-    <div class="panel">
-        <h3>CAMERA</h3>
-        <p class="small">Visual status simulation</p>
-        <div class="green">● NOT CONNECTED</div>
+<section class="panel" style="margin-top:20px">
+    <div class="panel-title">SYSTEM TERMINAL</div>
+    <div class="terminal" id="terminal">
+        <div><span>[BOOT]</span> OSIRIS monitor initialized</div>
+        <div><span>[INFO]</span> Simulation environment loaded</div>
+        <div><span>[READY]</span> Awaiting diagnostic command</div>
     </div>
+</section>
 
-    <div class="panel">
-        <h3>LOCATION</h3>
-        <p class="small">Location status simulation</p>
-        <div class="yellow">● DISABLED</div>
-    </div>
-
-    <div class="panel">
-        <h3>DEVICE</h3>
-        <p class="small">Demo environment</p>
-        <div class="green">● SIMULATED</div>
-    </div>
-
-    <div class="panel">
-        <h3>SECURITY</h3>
-        <p class="small">Monitoring simulation</p>
-        <div class="green">● ACTIVE</div>
-    </div>
-
+<div class="notice">
+    NOTICE: This page is a visual simulation. Radar points, system statuses,
+    and diagnostics are illustrative only and do not represent real cameras,
+    locations, networks, or people.
 </div>
 
 </main>
 
 <footer>
-    OSIRIS DIGITAL MONITORING INTERFACE
-    <br><br>
-    SIMULATION ONLY — NO REAL DATA COLLECTION
+OSIRIS DIGITAL MONITOR // SIMULATION MODE
 </footer>
 
 <script>
-function runSimulation() {
-    const terminal = document.getElementById("terminal");
+function addLog(message,status="INFO"){
+    const terminal=document.getElementById("terminal");
+    const time=new Date().toLocaleTimeString("id-ID");
 
-    const messages = [
-        "[SYS] Running system diagnostics...",
-        "[CAM] Demo module checked.",
-        "[GPS] Simulation module checked.",
-        "[NET] Network simulation checked.",
-        "[SEC] Security status nominal.",
-        "[SYS] Diagnostics complete."
+    const line=document.createElement("div");
+    line.innerHTML=`<span>[${time}]</span> ${message} — ${status}`;
+
+    terminal.appendChild(line);
+    terminal.scrollTop=terminal.scrollHeight;
+}
+
+function runDiagnostic(){
+    const status=document.getElementById("scanStatus");
+    const button=document.querySelector("button");
+
+    button.disabled=true;
+    button.textContent="CHECKING...";
+    status.textContent="RUNNING";
+    status.className="metric yellow";
+
+    addLog("Diagnostic sequence started");
+
+    const checks=[
+        "Interface module verified",
+        "Radar animation verified",
+        "Display module verified",
+        "Simulation environment verified"
     ];
 
-    terminal.innerHTML = "";
+    let i=0;
 
-    messages.forEach((msg, index) => {
-        setTimeout(() => {
-            const line = document.createElement("div");
-            line.textContent = msg;
-            terminal.appendChild(line);
-            terminal.scrollTop = terminal.scrollHeight;
-        }, index * 450);
-    });
+    const timer=setInterval(()=>{
+        addLog(checks[i],"OK");
+        i++;
+
+        if(i>=checks.length){
+            clearInterval(timer);
+            status.textContent="COMPLETE";
+            status.className="metric green";
+            button.disabled=false;
+            button.textContent="RUN SYSTEM CHECK";
+            addLog("All demo checks completed","SUCCESS");
+        }
+    },700);
 }
 </script>
 
