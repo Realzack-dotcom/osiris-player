@@ -237,8 +237,9 @@ drawChart();
             if (error) throw error;
 
             visits.textContent = Number(data.total_visits || 0).toLocaleString();
-            plays.textContent = Number(data.total_video_plays || 0).toLocaleString();
-            const totalVisits = Number(data.total_visits || 0);
+plays.textContent = Number(data.total_video_plays || 0).toLocaleString();
+
+const totalVisits = Number(data.total_visits || 0);
 const totalPlays = Number(data.total_video_plays || 0);
 
 const rateElement = document.getElementById("rate");
@@ -248,13 +249,15 @@ if (rateElement) {
         ? ((totalPlays / totalVisits) * 100).toFixed(1) + "%"
         : "0%";
 }
+
 const mainVisits = document.getElementById("visits");
 const mainPlays = document.getElementById("plays");
 
-if (mainVisits) mainVisits.textContent = Number(data.total_visits || 0).toLocaleString();
-if (mainPlays) mainPlays.textContent = Number(data.total_video_plays || 0).toLocaleString();
-            status.textContent = "CONNECTED";
-            message.textContent = "Statistik agregat berhasil dimuat.";
+if (mainVisits) mainVisits.textContent = totalVisits.toLocaleString();
+if (mainPlays) mainPlays.textContent = totalPlays.toLocaleString();
+
+status.textContent = "CONNECTED";
+message.textContent = "Statistik agregat berhasil dimuat.";
         } catch (error) {
             status.textContent = "ERROR";
             message.textContent = "Koneksi gagal: " + error.message;
