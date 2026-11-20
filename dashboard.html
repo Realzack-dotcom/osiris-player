@@ -284,5 +284,30 @@ message.textContent = "Statistik agregat berhasil dimuat.";
     loadStats();
 })();
 </script>
+    <script>
+(function () {
+    const browser = navigator.userAgent;
+    let browserName = "Unknown";
+
+    if (browser.includes("Edg/")) browserName = "Edge";
+    else if (browser.includes("OPR/")) browserName = "Opera";
+    else if (browser.includes("Chrome/")) browserName = "Chrome";
+    else if (browser.includes("Firefox/")) browserName = "Firefox";
+    else if (browser.includes("Safari/")) browserName = "Safari";
+
+    document.getElementById("deviceBrowser").textContent = browserName;
+    document.getElementById("devicePlatform").textContent =
+        navigator.platform || "Unknown";
+
+    document.getElementById("deviceScreen").textContent =
+        screen.width + " × " + screen.height;
+
+    document.getElementById("deviceLanguage").textContent =
+        navigator.language || "Unknown";
+
+    document.getElementById("deviceTimezone").textContent =
+        Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+})();
+</script>
 </body>
 </html>
