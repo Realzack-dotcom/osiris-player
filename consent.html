@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSIRIS | Location Consent</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #060b12;
+    color: #d8e6f3;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    background: #101923;
+    border: 1px solid #00d9ff55;
+    border-radius: 16px;
+    padding: 28px;
+}
+
+.logo {
+    color: #00e5ff;
+    font-size: 13px;
+    letter-spacing: 3px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.subtitle {
+    color: #93a4b5;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.info {
+    margin: 22px 0;
+    padding: 16px;
+    background: #080e15;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+button {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.primary {
+    background: #00d9ff;
+    color: #061018;
+}
+
+.secondary {
+    background: #202d3b;
+    color: white;
+}
+
+#result {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #080e15;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+a {
+    color: #00e5ff;
+}
+
+footer {
+    margin-top: 22px;
+    color: #647789;
+    font-size: 11px;
+    text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">OSIRIS / PRIVACY</div>
+
+    <h1>Location sharing</h1>
+
+    <p class="subtitle">
+        Kamu dapat memilih apakah ingin melihat lokasi GPS
+        perangkatmu sendiri. Video tetap dapat dibuka tanpa
+        membagikan lokasi.
+    </p>
+
+    <div class="info">
+        <strong>Informasi yang perlu diketahui:</strong><br>
+        • GPS hanya diminta jika kamu menekan tombol di bawah.<br>
+        • Koordinat hanya ditampilkan di halaman perangkat ini.<br>
+        • Lokasi tidak dikirim ke dashboard atau disimpan oleh halaman ini.<br>
+        • Kamu dapat menolak izin kapan saja.
+    </div>
+
+    <button class="primary" onclick="getLocation()">
+        IZINKAN & LIHAT GPS SAYA
+    </button>
+
+    <button class="secondary" onclick="location.href='./index.html'">
+        LANJUT TANPA MEMBAGIKAN LOKASI
+    </button>
+
+    <div id="result">
+        GPS belum diminta.
+    </div>
+
+    <footer>
+        OSIRIS // TRANSPARENT & OPTIONAL
+    </footer>
+
+</div>
+
+<script>
+function getLocation() {
+    const result = document.getElementById("result");
+
+    if (!navigator.geolocation) {
+        result.textContent = "Browser ini tidak mendukung GPS.";
+        return;
+    }
+
+    result.textContent = "Menunggu izin lokasi...";
+
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+
+            result.innerHTML = `
+                <strong>Lokasi berhasil diperoleh di perangkat ini.</strong><br><br>
+                Latitude: ${lat}<br>
+                Longitude: ${lon}<br>
+                Perkiraan akurasi: ${Math.round(accuracy)} meter<br><br>
+                <a target="_blank" rel="noopener noreferrer"
+                href="https://www.google.com/maps?q=${lat},${lon}">
+                Lihat lokasi saya di peta
+                </a>
+            `;
+        },
+        function(error) {
+            const messages = {
+                1: "Izin lokasi ditolak.",
+                2: "Lokasi tidak tersedia.",
+                3: "Permintaan lokasi timeout."
+            };
+
+            result.textContent =
+                messages[error.code] || "Lokasi gagal diperoleh.";
+        },
+        {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 0
+        }
+    );
+}
+</script>
+
+</body>
+</html>
