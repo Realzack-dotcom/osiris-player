@@ -649,6 +649,217 @@ document.querySelectorAll("nav a, .module").forEach(link => {
     });
 });
 </script>
+<!-- OSIRIS V4 LIVE MONITOR -->
+<script>
+(() => {
+    const panel = document.createElement("section");
 
+    panel.id = "osiris-v4";
+    panel.innerHTML = `
+    <style>
+        #osiris-v4 {
+            position: relative;
+            z-index: 10;
+            margin: 25px auto;
+            padding: 20px;
+            max-width: 1100px;
+            background: #050b12;
+            border: 1px solid #00eaff55;
+            border-radius: 12px;
+            color: #00eaff;
+            font-family: monospace;
+            box-shadow: 0 0 25px #00eaff12;
+        }
+
+        #osiris-v4 * { box-sizing: border-box; }
+
+        #osiris-v4 .v4-title {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+        }
+
+        #osiris-v4 .v4-sub {
+            color: #6d91a3;
+            font-size: 11px;
+            margin-bottom: 20px;
+        }
+
+        #osiris-v4 .v4-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        #osiris-v4 .v4-card {
+            background: #09141e;
+            border: 1px solid #153746;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        #osiris-v4 .v4-label {
+            color: #7c9eae;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+
+        #osiris-v4 .v4-value {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        #osiris-v4 .v4-status {
+            color: #00ff9c;
+            font-size: 10px;
+            margin-top: 5px;
+        }
+
+        #osiris-v4 .v4-chart {
+            height: 120px;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            padding: 15px 0;
+            overflow: hidden;
+        }
+
+        #osiris-v4 .v4-bar {
+            flex: 1;
+            min-width: 3px;
+            background: #00eaff;
+            opacity: .75;
+            border-radius: 2px 2px 0 0;
+            transition: height .3s;
+            box-shadow: 0 0 8px #00eaff33;
+        }
+
+        #osiris-v4 .v4-log {
+            margin-top: 15px;
+            padding: 12px;
+            height: 145px;
+            overflow: auto;
+            background: #02070b;
+            border: 1px solid #142d39;
+            color: #80c5d7;
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        #osiris-v4 .v4-log-title {
+            color: #00eaff;
+            margin-top: 20px;
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        @media(max-width:700px) {
+            #osiris-v4 .v4-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+
+    <div class="v4-title">OSIRIS // LIVE SYSTEM MONITOR</div>
+    <div class="v4-sub">SYSTEM TELEMETRY • SIMULATED DATA</div>
+
+    <div class="v4-grid">
+        <div class="v4-card">
+            <div class="v4-label">LOCAL SYSTEM TIME</div>
+            <div class="v4-value" id="v4-clock">--:--:--</div>
+            <div class="v4-status">● CLOCK ACTIVE</div>
+        </div>
+
+        <div class="v4-card">
+            <div class="v4-label">CPU LOAD</div>
+            <div class="v4-value" id="v4-cpu">--%</div>
+            <div class="v4-status">● SIMULATION</div>
+        </div>
+
+        <div class="v4-card">
+            <div class="v4-label">MEMORY USAGE</div>
+            <div class="v4-value" id="v4-ram">--%</div>
+            <div class="v4-status">● SIMULATION</div>
+        </div>
+
+        <div class="v4-card">
+            <div class="v4-label">NETWORK STATUS</div>
+            <div class="v4-value" id="v4-network">ONLINE</div>
+            <div class="v4-status">● INTERFACE ACTIVE</div>
+        </div>
+    </div>
+
+    <div class="v4-log-title">ACTIVITY WAVEFORM</div>
+    <div class="v4-card">
+        <div class="v4-chart" id="v4-chart"></div>
+    </div>
+
+    <div class="v4-log-title">SYSTEM EVENT LOG</div>
+    <div class="v4-log" id="v4-log"></div>
+    `;
+
+    const target = document.querySelector(".container") || document.body;
+    target.appendChild(panel);
+
+    const chart = document.getElementById("v4-chart");
+    const log = document.getElementById("v4-log");
+
+    for (let i = 0; i < 45; i++) {
+        const bar = document.createElement("div");
+        bar.className = "v4-bar";
+        bar.style.height = (10 + Math.random() * 90) + "%";
+        chart.appendChild(bar);
+    }
+
+    function clockUpdate() {
+        document.getElementById("v4-clock").textContent =
+            new Date().toLocaleTimeString("id-ID");
+    }
+
+    function systemUpdate() {
+        document.getElementById("v4-cpu").textContent =
+            Math.floor(10 + Math.random() * 75) + "%";
+
+        document.getElementById("v4-ram").textContent =
+            Math.floor(25 + Math.random() * 60) + "%";
+
+        document.querySelectorAll("#v4-chart .v4-bar").forEach(bar => {
+            bar.style.height = (8 + Math.random() * 92) + "%";
+        });
+    }
+
+    const messages = [
+        "Interface integrity check complete",
+        "Visual modules synchronized",
+        "Dashboard refresh cycle complete",
+        "Telemetry simulation updated",
+        "UI rendering process stable",
+        "System clock synchronized",
+        "Module response: NORMAL",
+        "Display subsystem operational"
+    ];
+
+    function addLog() {
+        const time = new Date().toLocaleTimeString("id-ID");
+        const message = messages[Math.floor(Math.random() * messages.length)];
+
+        log.innerHTML = `<div>[${time}] ${message}</div>` + log.innerHTML;
+
+        while (log.children.length > 25) {
+            log.removeChild(log.lastChild);
+        }
+    }
+
+    clockUpdate();
+    systemUpdate();
+    addLog();
+
+    setInterval(clockUpdate, 1000);
+    setInterval(systemUpdate, 2000);
+    setInterval(addLog, 4000);
+})();
+</script>
 </body>
 </html>
