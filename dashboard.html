@@ -146,26 +146,14 @@ OSIRIS ANALYTICS // SIMULATED DATA // NO INDIVIDUAL TRACKING
 
 <script>
 function drawChart(){
-    const values=Array.from({length:14},()=>Math.floor(Math.random()*75)+20);
-    const points=values.map((v,i)=>{
-        const x=i*(700/13);
-        const y=190-v*2;
-        return `${x},${y}`;
-    }).join(" ");
+    const line = document.getElementById("line");
+    const area = document.getElementById("area");
+    const dots = document.getElementById("dots");
 
-    document.getElementById("line").setAttribute("points",points);
-
-    document.getElementById("area").setAttribute(
-        "d",`M 0,200 L ${points.replaceAll(" ", " L ")} L 700,200 Z`
-    );
-
-    document.getElementById("dots").innerHTML=values.map((v,i)=>{
-        const x=i*(700/13);
-        const y=190-v*2;
-        return `<circle class="dot" cx="${x}" cy="${y}" r="3"/>`;
-    }).join("");
+    if(line) line.setAttribute("points", "");
+    if(area) area.setAttribute("d", "");
+    if(dots) dots.innerHTML = "";
 }
-
 
 drawChart();
 </script>
