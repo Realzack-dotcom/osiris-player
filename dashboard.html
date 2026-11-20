@@ -488,27 +488,8 @@ message.textContent = "Statistik agregat berhasil dimuat.";
         .addTo(map)
         .bindPopup("OSIRIS — Selected Map Point");
 
-    function updateGeoInfo() {
-        const center = map.getCenter();
-
-        document.getElementById("mapLatitude").textContent =
-            center.lat.toFixed(6);
-
-        document.getElementById("mapLongitude").textContent =
-            center.lng.toFixed(6);
-
-        document.getElementById("geoStatus").textContent =
-            "MAP CENTER";
-
-        marker.setLatLng(center);
-    }
-
-    map.on("moveend", updateGeoInfo);
-    map.on("zoomend", updateGeoInfo);
-
-    updateGeoInfo();
-
-    statusElement.textContent = "MAP ACTIVE — MANUAL MAP POINT";
+    
+    statusElement.textContent = "MAP ACTIVE — SEARCH READY";
 window.searchAddress = async function () {
     const input = document.getElementById("addressSearch");
     const address = input.value.trim();
