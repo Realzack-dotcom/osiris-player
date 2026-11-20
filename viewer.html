@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Player</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #080808;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.player {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #080808;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #080808;
+}
+
+.top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(#0009, transparent);
+    z-index: 2;
+}
+
+.brand {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #ddd;
+}
+
+.status {
+    font-size: 11px;
+    color: #aaa;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 25px;
+    background: linear-gradient(transparent, #000b);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+    font-size: 13px;
+    color: #ddd;
+}
+
+.subtitle {
+    font-size: 11px;
+    color: #888;
+    margin-top: 7px;
+}
+
+button {
+    background: #ffffff12;
+    color: white;
+    border: 1px solid #ffffff30;
+    padding: 11px 17px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ffffff25;
+}
+
+.loading {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #777;
+    font-size: 12px;
+    letter-spacing: 3px;
+    pointer-events: none;
+}
+
+@media(max-width:600px) {
+    .top {
+        padding: 15px;
+    }
+
+    .bottom {
+        padding: 16px;
+    }
+
+    .brand {
+        font-size: 10px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="player">
+
+    <div class="top">
+        <div class="brand">VIDEO PLAYER</div>
+        <div class="status">● MEDIA</div>
+    </div>
+
+    <div class="loading" id="loading">
+        LOADING VIDEO
+    </div>
+
+    <video id="video" controls autoplay muted playsinline></video>
+
+    <div class="bottom">
+        <div>
+            <div class="title" id="videoTitle">Random Video</div>
+            <div class="subtitle">Video collection</div>
+        </div>
+
+        <button id="nextVideo">NEXT VIDEO ↗</button>
+    </div>
+
+</div>
+
+<script>
+const videos = [
+    {
+        src: "videos/video1.mp4",
+        title: "Video 01"
+    },
+    {
+        src: "videos/video2.mp4",
+        title: "Video 02"
+    },
+    {
+        src: "videos/video3.mp4",
+        title: "Video 03"
+    },
+    {
+        src: "videos/video4.mp4",
+        title: "Video 04"
+    }
+];
+
+const video = document.getElementById("video");
+const title = document.getElementById("videoTitle");
+const loading = document.getElementById("loading");
+
+let lastIndex = -1;
+
+function randomVideo() {
+    let index;
+
+    if (videos.length === 1) {
+        index = 0;
+    } else {
+        do {
+            index = Math.floor(Math.random() * videos.length);
+        } while (index === lastIndex);
+    }
+
+    lastIndex = index;
+
+    const selected = videos[index];
+
+    video.src = selected.src;
+    title.textContent = selected.title;
+    loading.style.display = "grid";
+
+    video.load();
+
+    video.play().catch(() => {
+        // Browser may require a user interaction.
+    });
+}
+
+video.addEventListener("canplay", () => {
+    loading.style.display = "none";
+});
+
+video.addEventListener("ended", randomVideo);
+
+video.addEventListener("error", () => {
+    loading.textContent = "VIDEO UNAVAILABLE";
+    loading.style.display = "grid";
+});
+
+document.getElementById("nextVideo")
+    .addEventListener("click", randomVideo);
+
+randomVideo();
+</script>
+
+</body>
+</html>
