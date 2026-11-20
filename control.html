@@ -1040,5 +1040,133 @@ document.querySelectorAll("nav a, .module").forEach(link => {
     refreshStats();
 })();
 </script>
+    <!-- OSIRIS V6 UNIFIED INTERFACE -->
+<script>
+(() => {
+    if (document.getElementById("osiris-v6")) return;
+
+    const panel = document.createElement("section");
+    panel.id = "osiris-v6";
+
+    panel.innerHTML = `
+    <style>
+      #osiris-v6 {
+        max-width:1100px;
+        margin:25px auto;
+        padding:22px;
+        color:#00eaff;
+        background:#050b12;
+        border:1px solid #00eaff55;
+        border-radius:12px;
+        font-family:monospace;
+        box-shadow:0 0 25px #00eaff12;
+      }
+      #osiris-v6 * { box-sizing:border-box; }
+      #osiris-v6 .top {
+        display:flex; justify-content:space-between;
+        align-items:center; flex-wrap:wrap; gap:15px;
+      }
+      #osiris-v6 .title {
+        font-size:20px; font-weight:bold; letter-spacing:3px;
+      }
+      #osiris-v6 .clock {
+        font-size:16px; color:#00ff9c;
+      }
+      #osiris-v6 .subtitle {
+        margin-top:8px; color:#7195a5; font-size:10px;
+      }
+      #osiris-v6 .grid {
+        display:grid; grid-template-columns:repeat(2,1fr);
+        gap:12px; margin-top:20px;
+      }
+      #osiris-v6 .item {
+        padding:17px; background:#09141e;
+        border:1px solid #153746; border-radius:8px;
+        transition:.2s;
+      }
+      #osiris-v6 .item:hover {
+        border-color:#00eaff;
+        transform:translateY(-2px);
+        box-shadow:0 0 12px #00eaff12;
+      }
+      #osiris-v6 .item h3 {
+        font-size:13px; margin-bottom:8px;
+      }
+      #osiris-v6 .item p {
+        font-size:10px; color:#7696a6; line-height:1.6;
+      }
+      #osiris-v6 .item a {
+        display:inline-block; margin-top:13px;
+        text-decoration:none; color:#00eaff;
+        font-size:11px; border:1px solid #00eaff55;
+        padding:8px 12px; border-radius:4px;
+      }
+      #osiris-v6 .item a:hover {
+        background:#00eaff15;
+      }
+      #osiris-v6 .bottom {
+        margin-top:20px; padding:12px;
+        background:#07131b; border:1px solid #153746;
+        color:#00ff9c; font-size:10px;
+      }
+      @media(max-width:600px) {
+        #osiris-v6 .grid { grid-template-columns:1fr; }
+        #osiris-v6 .title { font-size:16px; }
+      }
+    </style>
+
+    <div class="top">
+      <div class="title">OSIRIS // UNIFIED INTERFACE</div>
+      <div class="clock" id="v6-clock">--:--:--</div>
+    </div>
+
+    <div class="subtitle">
+      CENTRAL MODULE DIRECTORY • VERSION 6.0
+    </div>
+
+    <div class="grid">
+      <div class="item">
+        <h3>VIDEO PLAYER</h3>
+        <p>Video playback interface and media controls.</p>
+        <a href="./index.html">OPEN PLAYER ↗</a>
+      </div>
+
+      <div class="item">
+        <h3>ANALYTICS DASHBOARD</h3>
+        <p>Aggregate activity overview and statistics.</p>
+        <a href="./dashboard.html">OPEN ANALYTICS ↗</a>
+      </div>
+
+      <div class="item">
+        <h3>VISUAL MONITOR</h3>
+        <p>Visualization interface and simulated system monitoring.</p>
+        <a href="./monitor.html">OPEN MONITOR ↗</a>
+      </div>
+
+      <div class="item">
+        <h3>CONTROL CENTER</h3>
+        <p>Central OSIRIS interface and module directory.</p>
+        <a href="./control.html">OPEN CONTROL ↗</a>
+      </div>
+    </div>
+
+    <div class="bottom">
+      ● ALL MODULE LINKS AVAILABLE • UI STATUS NORMAL
+    </div>
+    `;
+
+    document.body.appendChild(panel);
+
+    function updateClock() {
+        const clock = document.getElementById("v6-clock");
+        if (clock) {
+            clock.textContent = new Date().toLocaleTimeString("id-ID");
+        }
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+})();
+</script>
 </body>
 </html>
