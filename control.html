@@ -349,11 +349,103 @@ footer {
         padding: 13px;
     }
 }
+    /* OSIRIS V3 LOADING SCREEN */
+#osiris-loader {
+    position: fixed;
+    inset: 0;
+    background: #05080d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    transition: opacity .6s ease, visibility .6s ease;
+}
+
+#osiris-loader.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-logo {
+    color: #00f6ff;
+    font-size: 30px;
+    letter-spacing: 8px;
+    text-shadow: 0 0 20px #00f6ff;
+    animation: pulse 1.2s infinite alternate;
+}
+
+.loader-text {
+    margin-top: 15px;
+    color: #688894;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+.loader-bar {
+    width: 220px;
+    height: 3px;
+    background: #132a34;
+    margin-top: 25px;
+    overflow: hidden;
+}
+
+.loader-progress {
+    height: 100%;
+    width: 0%;
+    background: #00f6ff;
+    box-shadow: 0 0 15px #00f6ff;
+    animation: load 1.5s ease forwards;
+}
+
+@keyframes load {
+    to { width: 100%; }
+}
+
+@keyframes pulse {
+    from { opacity: .5; }
+    to { opacity: 1; }
+}
+
+.page-enter {
+    animation: pageEnter .7s ease;
+}
+
+@keyframes pageEnter {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sound-btn {
+    background: transparent;
+    color: #00f6ff;
+    border: 1px solid #153742;
+    padding: 10px 14px;
+    font-family: Consolas, monospace;
+    cursor: pointer;
+}
+
+.sound-btn:hover {
+    border-color: #00f6ff;
+    box-shadow: 0 0 12px #00f6ff33;
+}
 </style>
 </head>
 
 <body>
-
+<div id="osiris-loader">
+    <div class="loader-logo">OSIRIS V3</div>
+    <div class="loader-text">INITIALIZING INTERFACE</div>
+    <div class="loader-bar">
+        <div class="loader-progress"></div>
+    </div>
+</div>
 <div class="scanline"></div>
 
 <div class="container">
@@ -371,6 +463,9 @@ footer {
 </header>
 
 <nav>
+    <button class="sound-btn" id="soundToggle">
+    SOUND: OFF
+</button>
     <a href="index.html">VIDEO PLAYER</a>
     <a href="dashboard.html">ANALYTICS</a>
     <a href="monitor.html">SYSTEM MONITOR</a>
@@ -512,6 +607,47 @@ function addLog() {
 
 addLog();
 setInterval(addLog, 2500);
+    // OSIRIS V3 LOADER
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        document.getElementById("osiris-loader")
+            .classList.add("hide");
+    }, 1600);
+});
+
+// PAGE ENTER ANIMATION
+document.querySelector(".container")
+    .classList.add("page-enter");
+
+// UI SOUND TOGGLE
+let soundEnabled = false;
+
+const soundToggle = document.getElementById("soundToggle");
+
+soundToggle.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+
+    soundToggle.textContent =
+        soundEnabled ? "SOUND: ON" : "SOUND: OFF";
+});
+
+// NAVIGATION TRANSITION
+document.querySelectorAll("nav a, .module").forEach(link => {
+    link.addEventListener("click", event => {
+        const destination = link.getAttribute("href");
+
+        if (!destination || destination.startsWith("#")) return;
+
+        event.preventDefault();
+
+        document.body.style.opacity = "0";
+        document.body.style.transition = "opacity .3s";
+
+        setTimeout(() => {
+            window.location.href = destination;
+        }, 300);
+    });
+});
 </script>
 
 </body>
