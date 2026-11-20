@@ -238,6 +238,16 @@ drawChart();
 
             visits.textContent = Number(data.total_visits || 0).toLocaleString();
             plays.textContent = Number(data.total_video_plays || 0).toLocaleString();
+            const totalVisits = Number(data.total_visits || 0);
+const totalPlays = Number(data.total_video_plays || 0);
+
+const rateElement = document.getElementById("rate");
+
+if (rateElement) {
+    rateElement.textContent = totalVisits > 0
+        ? ((totalPlays / totalVisits) * 100).toFixed(1) + "%"
+        : "0%";
+}
 const mainVisits = document.getElementById("visits");
 const mainPlays = document.getElementById("plays");
 
