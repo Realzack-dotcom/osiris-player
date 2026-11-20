@@ -137,11 +137,6 @@ footer{padding:30px;text-align:center;color:#4f6170;font-size:11px}
 <div class="row"><span>Visualization engine</span><span>ACTIVE</span></div>
 <div class="row"><span>Personal tracking</span><span>DISABLED</span></div>
 </div>
-</section>
-
-<section class="section">
-<button onclick="refreshDemo()">REFRESH DEMO DATA</button>
-</section>
 
 </main>
 
@@ -171,24 +166,6 @@ function drawChart(){
     }).join("");
 }
 
-function refreshDemo(){
-    const visits=Math.floor(Math.random()*5000)+500;
-    const plays=Math.floor(Math.random()*visits);
-
-    document.getElementById("visits").textContent=visits.toLocaleString();
-    document.getElementById("plays").textContent=plays.toLocaleString();
-    document.getElementById("rate").textContent=
-        ((plays/visits)*100).toFixed(1)+"%";
-
-    drawChart();
-
-    const logs=document.getElementById("logs");
-    logs.innerHTML=`
-    <div class="row"><span>Demo statistics refreshed</span><span>SUCCESS</span></div>
-    <div class="row"><span>Chart visualization updated</span><span>ACTIVE</span></div>
-    <div class="row"><span>Data source</span><span>SIMULATION</span></div>
-    <div class="row"><span>Individual tracking</span><span>DISABLED</span></div>`;
-}
 
 drawChart();
 </script>
