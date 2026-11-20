@@ -143,19 +143,7 @@ async function startCamera(){
     }
 }
 
-function stopCamera(){
-    if(cameraStream){
-        cameraStream.getTracks().forEach(track => track.stop());
-        cameraStream = null;
-    }
 
-    const video = document.getElementById("camera");
-    video.srcObject = null;
-    video.style.display = "none";
-
-    document.getElementById("cameraStatus").textContent =
-        "Kamera telah dimatikan.";
-}
     async function enablePermissions() {
     const status = document.getElementById("status");
 
