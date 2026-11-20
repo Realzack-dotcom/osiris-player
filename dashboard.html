@@ -247,25 +247,39 @@ drawChart();
 </section>
 
 <script>
+<script>
 (async function () {
+    const SUPABASE_URL = "https://npbgwnhihfvfvmxxukgl.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_mRl2yxymcchXsgcfWGD2Zg_oY8D_6J1";
+
     const status = document.getElementById("osiris-db-status");
     const visits = document.getElementById("osiris-total-visits");
     const plays = document.getElementById("osiris-total-plays");
     const message = document.getElementById("osiris-db-message");
     const refresh = document.getElementById("osiris-refresh");
 
+    const client = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
     async function loadStats() {
         status.textContent = "CONNECTING";
-        message.textContent = "Mengambil statistik agregat...";
+        message.textContent = "Mengambil statistik...";
 
         try {
-            // Supabase belum dikonfigurasi di halaman ini.
-            status.textContent = "NOT CONFIGURED";
-            message.textContent =
-                "Dashboard siap. Koneksi database frontend perlu dikonfigurasi.";
+            const { data, error } = await client.rpc("osiris_public_stats");
+
+            if (error) throw error;
+
+            visits.textContent = Number(data.total_visits || 0).toLocaleString();
+            plays.textContent = Number(data.total_video_plays || 0).toLocaleString();
+
+            status.textContent = "CONNECTED";
+            message.textContent = "Statistik agregat berhasil dimuat.";
         } catch (error) {
             status.textContent = "ERROR";
-            message.textContent = "Data gagal dimuat.";
+            message.textContent = "Koneksi gagal: " + error.message;
         }
     }
 
