@@ -192,93 +192,84 @@ function refreshDemo(){
 
 drawChart();
 </script>
-<!-- OSIRIS V7 DATABASE CONNECTION PANEL -->
-<section id="osiris-v7">
-<style>
-#osiris-v7 {
-    max-width:1100px;
-    margin:25px auto;
-    padding:22px;
-    background:#050b12;
-    color:#00eaff;
-    border:1px solid #00eaff55;
+    <!-- OSIRIS V8 AGGREGATE ANALYTICS -->
+<section id="osiris-v8-analytics" style="
+    margin:20px;
+    padding:25px;
+    background:#080d14;
+    border:1px solid #00e5ff;
     border-radius:12px;
+    color:#00e5ff;
     font-family:monospace;
-}
-#osiris-v7 * { box-sizing:border-box; }
-#osiris-v7 .v7-title {
-    font-size:18px;
-    letter-spacing:3px;
-}
-#osiris-v7 .v7-sub {
-    color:#7195a5;
-    font-size:11px;
-    margin:10px 0 20px;
-}
-#osiris-v7 .v7-card {
-    background:#09141e;
-    border:1px solid #153746;
-    border-radius:8px;
-    padding:16px;
-}
-#osiris-v7 .v7-label {
-    color:#7896a6;
-    font-size:10px;
-}
-#osiris-v7 .v7-status {
-    font-size:18px;
-    margin-top:12px;
-    font-weight:bold;
-}
-#osiris-v7 .v7-detail {
-    color:#7896a6;
-    font-size:11px;
-    line-height:1.8;
-    margin-top:12px;
-}
-#osiris-v7 .v7-button {
-    margin-top:15px;
-    background:#071722;
-    border:1px solid #00eaff;
-    color:#00eaff;
-    padding:10px 15px;
-    border-radius:5px;
-    cursor:pointer;
-}
-#osiris-v7 .v7-button:hover {
-    background:#00eaff15;
-}
-</style>
+">
+    <h2>OSIRIS // LIVE ANALYTICS</h2>
+    <p style="color:#8a9aaa">
+        Public aggregate statistics
+    </p>
 
-<div class="v7-title">OSIRIS // DATABASE CONNECTIVITY</div>
-<div class="v7-sub">PUBLIC CONNECTION STATUS • V7</div>
+    <div style="
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+        gap:15px;
+        margin-top:20px;
+    ">
+        <div style="padding:20px;background:#101923;border-radius:8px;">
+            <small>TOTAL VISITS</small>
+            <h1 id="osiris-total-visits">0</h1>
+        </div>
 
-<div class="v7-card">
-    <div class="v7-label">DATABASE CONNECTION</div>
-    <div class="v7-status" id="v7-status">NOT CONFIGURED</div>
-    <div class="v7-detail" id="v7-detail">
-        Database connection has not been configured.
+        <div style="padding:20px;background:#101923;border-radius:8px;">
+            <small>VIDEO PLAYS</small>
+            <h1 id="osiris-total-plays">0</h1>
+        </div>
+
+        <div style="padding:20px;background:#101923;border-radius:8px;">
+            <small>CONNECTION</small>
+            <h3 id="osiris-db-status">WAITING</h3>
+        </div>
     </div>
 
-    <button class="v7-button" id="v7-check">
-        CHECK CONNECTION
-    </button>
-</div>
+    <button id="osiris-refresh" style="
+        margin-top:20px;
+        padding:12px 18px;
+        background:#00e5ff;
+        color:#000;
+        border:0;
+        border-radius:5px;
+        cursor:pointer;
+        font-weight:bold;
+    ">REFRESH DATA</button>
+
+    <p id="osiris-db-message" style="margin-top:15px;color:#9aabbc;">
+        Statistik agregat. Tidak menampilkan identitas pengunjung.
+    </p>
 </section>
 
 <script>
-(() => {
-    const status = document.getElementById("v7-status");
-    const detail = document.getElementById("v7-detail");
-    const button = document.getElementById("v7-check");
+(async function () {
+    const status = document.getElementById("osiris-db-status");
+    const visits = document.getElementById("osiris-total-visits");
+    const plays = document.getElementById("osiris-total-plays");
+    const message = document.getElementById("osiris-db-message");
+    const refresh = document.getElementById("osiris-refresh");
 
-    button.addEventListener("click", () => {
-        status.textContent = "CONFIGURATION REQUIRED";
-        status.style.color = "#ffbd44";
+    async function loadStats() {
+        status.textContent = "CONNECTING";
+        message.textContent = "Mengambil statistik agregat...";
 
-        detail.textContent =
-            "This interface is ready. Supabase credentials and database permissions must be configured before live statistics can be displayed.";
-    });
+        try {
+            // Supabase belum dikonfigurasi di halaman ini.
+            status.textContent = "NOT CONFIGURED";
+            message.textContent =
+                "Dashboard siap. Koneksi database frontend perlu dikonfigurasi.";
+        } catch (error) {
+            status.textContent = "ERROR";
+            message.textContent = "Data gagal dimuat.";
+        }
+    }
+
+    refresh.addEventListener("click", loadStats);
+    loadStats();
 })();
 </script>
 </body>
