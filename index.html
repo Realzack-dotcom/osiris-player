@@ -34,6 +34,30 @@
       background: #000;
       border-radius: 12px;
     }
+    .navbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 15px 5%;
+    background: #070c12;
+    border-bottom: 1px solid #18313c;
+}
+
+.navbar a {
+    color: #8095a8;
+    text-decoration: none;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    padding: 10px 15px;
+    border: 1px solid #1a303b;
+    transition: .2s;
+}
+
+.navbar a:hover {
+    color: #00ffd0;
+    border-color: #00ffd0;
+    background: #00ffd008;
+}
   </style>
   <style>
 /* OSIRIS CYBER UI */
@@ -83,6 +107,12 @@ body::after {
 </head>
 
 <body>
+  <nav class="navbar">
+    <a href="./control.html">⌂ CONTROL CENTER</a>
+    <a href="./index.html">▶ VIDEO PLAYER</a>
+    <a href="./dashboard.html">▤ ANALYTICS</a>
+    <a href="./monitor.html">⌁ DIGITAL MONITOR</a>
+</nav>
   <div class="player">
     <video controls playsinline preload="metadata">
       <source src="video1.mp4" type="video/mp4">
@@ -102,9 +132,7 @@ body::after {
   border-radius:8px;
   z-index:9999;
 ">
-  Situs ini menggunakan statistik penggunaan agregat untuk menghitung
-  kunjungan dan pemutaran video. Tidak digunakan untuk merekam kamera
-  atau mengambil lokasi pengunjung.
+  
 </div>
 </body>
 </html>
