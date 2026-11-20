@@ -1,215 +1,123 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OSIRIS Control Center</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OSIRIS | Control Center</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#05080d;color:#dbe8f4;
+  font-family:Consolas,monospace;
 }
-
-body {
-    background: #05080d;
-    color: #d8e5f5;
-    font-family: Consolas, monospace;
-    min-height: 100vh;
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:linear-gradient(#00ffd005 1px,transparent 1px),
+  linear-gradient(90deg,#00ffd005 1px,transparent 1px);
+  background-size:35px 35px;
 }
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(0,255,200,.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,200,.025) 1px, transparent 1px);
-    background-size: 30px 30px;
+header{
+  position:relative;display:flex;justify-content:space-between;
+  align-items:center;padding:20px 5%;
+  background:#080d13;border-bottom:1px solid #18313c;
 }
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 22px 7%;
-    border-bottom: 1px solid #142b35;
-    background: #080d13;
+.logo{color:#00ffd0;font-size:23px;font-weight:bold;letter-spacing:4px}
+.status{color:#00ff9c;font-size:12px}
+nav{
+  position:relative;display:flex;flex-wrap:wrap;gap:8px;
+  padding:14px 5%;border-bottom:1px solid #162c37;
 }
-
-.logo {
-    color: #00ffd0;
-    font-size: 23px;
-    font-weight: bold;
-    letter-spacing: 4px;
+nav a{
+  color:#8295a8;text-decoration:none;font-size:11px;
+  padding:10px 13px;border:1px solid #19303b;
 }
-
-.status {
-    color: #00ff9c;
-    font-size: 12px;
+nav a:hover{color:#00ffd0;border-color:#00ffd0}
+main{position:relative;max-width:1250px;margin:auto;padding:35px 20px}
+.hero{margin-bottom:28px}
+.hero small{color:#00ffd0;letter-spacing:3px}
+.hero h1{font-size:clamp(30px,5vw,48px);margin:15px 0}
+.hero p{color:#718497;line-height:1.8;font-size:13px}
+.overview{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
 }
-
-main {
-    max-width: 1250px;
-    margin: auto;
-    padding: 50px 25px;
+.box{
+  background:#0a1018;border:1px solid #19313d;padding:20px;
 }
-
-.hero {
-    margin-bottom: 35px;
+.box small{color:#718598;font-size:11px}
+.box h2{color:#00ffd0;font-size:21px;margin-top:12px}
+.middle{
+  display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-top:20px;
 }
-
-.hero small {
-    color: #00ffd0;
-    letter-spacing: 3px;
+.section-title{color:#00ffd0;font-size:12px;margin-bottom:16px}
+.radar-wrap{
+  display:flex;align-items:center;justify-content:center;
+  min-height:300px;background:#080e14;border:1px solid #19313d;
 }
-
-.hero h1 {
-    font-size: clamp(28px, 5vw, 48px);
-    margin: 15px 0;
+.radar{
+  width:min(240px,65vw);aspect-ratio:1;border-radius:50%;
+  border:1px solid #165344;position:relative;overflow:hidden;
+  background:
+    radial-gradient(circle,transparent 24%,#00ffd012 25%,transparent 26%),
+    radial-gradient(circle,transparent 49%,#00ffd016 50%,transparent 51%),
+    radial-gradient(circle,transparent 74%,#00ffd01c 75%,transparent 76%),
+    #06120f;
 }
-
-.hero p {
-    color: #75879b;
-    line-height: 1.8;
+.radar:before,.radar:after{
+  content:"";position:absolute;background:#17483d;
 }
-
-.info-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 35px;
+.radar:before{width:1px;height:100%;left:50%}
+.radar:after{height:1px;width:100%;top:50%}
+.sweep{
+  position:absolute;width:50%;height:50%;left:50%;top:0;
+  transform-origin:bottom left;
+  background:linear-gradient(45deg,#00ffd050,transparent 70%);
+  animation:spin 4s linear infinite;
 }
-
-.info {
-    border: 1px solid #172c3b;
-    background: #0a1018;
-    padding: 20px;
+@keyframes spin{to{transform:rotate(360deg)}}
+.point{
+  position:absolute;width:5px;height:5px;border-radius:50%;
+  background:#00ff9c;box-shadow:0 0 9px #00ff9c;
 }
-
-.info small {
-    color: #71869b;
+.modules{display:grid;gap:10px}
+.module{
+  background:#0a1018;border:1px solid #19313d;
+  padding:17px;display:flex;justify-content:space-between;gap:10px;
 }
-
-.info h2 {
-    margin-top: 12px;
-    color: #00ffd0;
-    font-size: 19px;
+.module span:first-child{color:#91a5b8;font-size:12px}
+.module span:last-child{color:#00ff9c;font-size:11px}
+.directory{margin-top:25px}
+.cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
 }
-
-.section-title {
-    margin-bottom: 18px;
-    color: #00ffd0;
-    letter-spacing: 2px;
+.card{
+  display:block;text-decoration:none;color:inherit;
+  background:#0a1018;border:1px solid #19313d;padding:22px;
+  transition:.2s;min-height:175px;
 }
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 18px;
+.card:hover{border-color:#00ffd0;transform:translateY(-3px)}
+.card small{color:#00ffd0;font-size:11px}
+.card h3{margin:18px 0 10px}
+.card p{font-size:12px;color:#718598;line-height:1.7}
+.card b{display:block;color:#00ffd0;margin-top:15px;font-size:11px}
+.terminal{
+  background:#030608;border:1px solid #19313d;
+  margin-top:22px;padding:18px;font-size:11px;line-height:2;
 }
-
-.card {
-    display: block;
-    padding: 25px;
-    min-height: 190px;
-    text-decoration: none;
-    color: inherit;
-    background: #0a1018;
-    border: 1px solid #1b3443;
-    transition: .2s;
+.terminal div{color:#718598}
+.terminal span{color:#00ff9c}
+footer{
+  position:relative;text-align:center;padding:25px;
+  border-top:1px solid #152a35;color:#4b5f6e;font-size:10px;
 }
-
-.card:hover {
-    border-color: #00ffd0;
-    transform: translateY(-4px);
-    box-shadow: 0 0 20px #00ffd015;
-}
-
-.card .number {
-    color: #00ffd0;
-    font-size: 12px;
-}
-
-.card h3 {
-    margin: 22px 0 12px;
-    font-size: 20px;
-}
-
-.card p {
-    color: #71869b;
-    font-size: 13px;
-    line-height: 1.7;
-}
-
-.card .open {
-    display: inline-block;
-    color: #00ffd0;
-    margin-top: 18px;
-    font-size: 12px;
-}
-
-.terminal {
-    margin-top: 35px;
-    padding: 20px;
-    background: #080d12;
-    border: 1px solid #142c38;
-    color: #6e899d;
-    font-size: 12px;
-    line-height: 2;
-}
-
-.terminal span {
-    color: #00ff9c;
-}
-
-footer {
-    margin-top: 45px;
-    padding: 22px;
-    text-align: center;
-    color: #455767;
-    font-size: 11px;
-    border-top: 1px solid #14232e;
-}
-
-@media(max-width:600px) {
-    header {
-        padding: 18px;
-    }
-
-    main {
-        padding: 35px 16px;
-    }
-
-    .info-bar {
-        grid-template-columns: 1fr;
-    }
-}
-
-    .navbar {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 15px 5%;
-    background: #070c12;
-    border-bottom: 1px solid #18313c;
-}
-
-.navbar a {
-    color: #8095a8;
-    text-decoration: none;
-    font-size: 12px;
-    padding: 10px 15px;
-    border: 1px solid #1a303b;
-    transition: .2s;
-}
-
-.navbar a:hover {
-    color: #00ffd0;
-    border-color: #00ffd0;
-    background: #00ffd008;
+@media(max-width:750px){
+  .middle{grid-template-columns:1fr}
+  header{padding:17px}
+  nav{padding:12px}
+  main{padding:25px 15px}
 }
 </style>
 </head>
@@ -217,96 +125,122 @@ footer {
 <body>
 
 <header>
-    <div class="logo">OSIRIS</div>
-    <div class="status">● SYSTEM ONLINE</div>
+  <div class="logo">OSIRIS</div>
+  <div class="status">● SYSTEM ONLINE</div>
 </header>
-<nav class="navbar">
-    <a href="./control.html">⌂ CONTROL CENTER</a>
-    <a href="./index.html">▶ VIDEO PLAYER</a>
-    <a href="./dashboard.html">▤ ANALYTICS</a>
-    <a href="./monitor.html">⌁ DIGITAL MONITOR</a>
+
+<nav>
+  <a href="./control.html">⌂ CONTROL CENTER</a>
+  <a href="./index.html">▶ VIDEO PLAYER</a>
+  <a href="./dashboard.html">▤ ANALYTICS</a>
+  <a href="./monitor.html">⌁ DIGITAL MONITOR</a>
 </nav>
+
 <main>
 
-    <section class="hero">
-        <small>OSIRIS / CENTRAL INTERFACE</small>
-        <h1>Control Center</h1>
-        <p>
-            Central navigation interface for OSIRIS digital services.
-            Select a module to access its workspace.
-        </p>
-    </section>
+<section class="hero">
+  <small>OSIRIS // CENTRAL COMMAND INTERFACE</small>
+  <h1>Control Center</h1>
+  <p>Unified interface for digital media, analytics and system visualization.</p>
+</section>
 
-    <section class="info-bar">
-        <div class="info">
-            <small>SYSTEM STATUS</small>
-            <h2>OPERATIONAL</h2>
-        </div>
+<section class="overview">
+  <div class="box">
+    <small>PLATFORM STATUS</small>
+    <h2>OPERATIONAL</h2>
+  </div>
+  <div class="box">
+    <small>AVAILABLE MODULES</small>
+    <h2>03</h2>
+  </div>
+  <div class="box">
+    <small>MODE</small>
+    <h2>SIMULATION</h2>
+  </div>
+  <div class="box">
+    <small>JAKARTA TIME</small>
+    <h2 id="clock">--:--:--</h2>
+  </div>
+</section>
 
-        <div class="info">
-            <small>ACTIVE MODULES</small>
-            <h2>03 MODULES</h2>
-        </div>
+<section class="middle">
 
-        <div class="info">
-            <small>LOCAL TIME</small>
-            <h2 id="clock">--:--:--</h2>
-        </div>
-    </section>
+  <div>
+    <div class="section-title">// RADAR VISUALIZATION</div>
+    <div class="radar-wrap">
+      <div class="radar">
+        <div class="sweep"></div>
+        <div class="point" style="left:28%;top:35%"></div>
+        <div class="point" style="left:68%;top:25%"></div>
+        <div class="point" style="left:57%;top:72%"></div>
+        <div class="point" style="left:38%;top:63%"></div>
+      </div>
+    </div>
+  </div>
 
-    <h3 class="section-title">// MODULE DIRECTORY</h3>
+  <div>
+    <div class="section-title">// MODULE STATUS</div>
+    <div class="modules">
+      <div class="module"><span>Interface</span><span>READY</span></div>
+      <div class="module"><span>Media Player</span><span>AVAILABLE</span></div>
+      <div class="module"><span>Analytics</span><span>AVAILABLE</span></div>
+      <div class="module"><span>Digital Monitor</span><span>SIMULATION</span></div>
+      <div class="module"><span>External sensors</span><span>DISCONNECTED</span></div>
+    </div>
+  </div>
 
-    <section class="cards">
+</section>
 
-        <a href="./index.html" class="card">
-            <div class="number">MODULE 01</div>
-            <h3>Video Player</h3>
-            <p>Open the OSIRIS media interface and video playback workspace.</p>
-            <div class="open">OPEN MODULE →</div>
-        </a>
+<section class="directory">
+  <div class="section-title">// MODULE DIRECTORY</div>
+  <div class="cards">
 
-        <a href="./dashboard.html" class="card">
-            <div class="number">MODULE 02</div>
-            <h3>Analytics</h3>
-            <p>Access the analytics dashboard and aggregate statistics interface.</p>
-            <div class="open">OPEN MODULE →</div>
-        </a>
+    <a class="card" href="./index.html">
+      <small>MODULE 01</small>
+      <h3>Video Player</h3>
+      <p>Media playback and video interface.</p>
+      <b>OPEN MODULE →</b>
+    </a>
 
-        <a href="./monitor.html" class="card">
-            <div class="number">MODULE 03</div>
-            <h3>Digital Monitor</h3>
-            <p>Explore the simulated monitoring environment and system diagnostics.</p>
-            <div class="open">OPEN MODULE →</div>
-        </a>
+    <a class="card" href="./dashboard.html">
+      <small>MODULE 02</small>
+      <h3>Analytics</h3>
+      <p>Aggregate statistics and data visualization.</p>
+      <b>OPEN MODULE →</b>
+    </a>
 
-    </section>
+    <a class="card" href="./monitor.html">
+      <small>MODULE 03</small>
+      <h3>Digital Monitor</h3>
+      <p>Simulated radar and system diagnostics.</p>
+      <b>OPEN MODULE →</b>
+    </a>
 
-    <section class="terminal">
-        <div><span>[SYSTEM]</span> OSIRIS interface initialized.</div>
-        <div><span>[STATUS]</span> Navigation modules available.</div>
-        <div><span>[INFO]</span> Monitoring visualization is simulation-only.</div>
-        <div><span>[READY]</span> Waiting for module selection...</div>
-    </section>
+  </div>
+</section>
+
+<section class="terminal">
+  <div><span>[SYSTEM]</span> OSIRIS central interface initialized.</div>
+  <div><span>[STATUS]</span> Navigation modules available.</div>
+  <div><span>[RADAR]</span> Visual simulation active.</div>
+  <div><span>[SECURITY]</span> No covert camera or location collection.</div>
+  <div><span>[READY]</span> Awaiting module selection.</div>
+</section>
 
 </main>
 
-<footer>
-    OSIRIS CONTROL CENTER // DIGITAL INTERFACE // 2026
-</footer>
+<footer>OSIRIS CENTRAL INTERFACE // VISUAL SIMULATION // 2026</footer>
 
 <script>
-function updateClock() {
-    const now = new Date();
-
-    document.getElementById("clock").textContent =
-        now.toLocaleTimeString("id-ID", {
-            hour12: false,
-            timeZone: "Asia/Jakarta"
-        });
+function clock(){
+  document.getElementById("clock").textContent=
+    new Date().toLocaleTimeString("id-ID",{
+      timeZone:"Asia/Jakarta",
+      hour12:false
+    });
 }
-
-updateClock();
-setInterval(updateClock, 1000);
+clock();
+setInterval(clock,1000);
 </script>
 
 </body>
