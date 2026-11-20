@@ -3,244 +3,513 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OSIRIS | Control Center</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSIRIS V2 | Control Center</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  background:#05080d;color:#dbe8f4;
-  font-family:Consolas,monospace;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-body:before{
-  content:"";position:fixed;inset:0;pointer-events:none;
-  background-image:linear-gradient(#00ffd005 1px,transparent 1px),
-  linear-gradient(90deg,#00ffd005 1px,transparent 1px);
-  background-size:35px 35px;
+
+body {
+    background: #05080d;
+    color: #d9faff;
+    font-family: Consolas, monospace;
+    overflow-x: hidden;
 }
-header{
-  position:relative;display:flex;justify-content:space-between;
-  align-items:center;padding:20px 5%;
-  background:#080d13;border-bottom:1px solid #18313c;
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(rgba(0,255,255,.035) 1px, transparent 1px),
+        linear-linear(90deg, rgba(0,255,255,.035) 1px, transparent 1px);
+    background-size: 35px 35px;
+    z-index: 0;
 }
-.logo{color:#00ffd0;font-size:23px;font-weight:bold;letter-spacing:4px}
-.status{color:#00ff9c;font-size:12px}
-nav{
-  position:relative;display:flex;flex-wrap:wrap;gap:8px;
-  padding:14px 5%;border-bottom:1px solid #162c37;
+
+.scanline {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+    background: repeating-linear-gradient(
+        transparent 0px,
+        transparent 3px,
+        rgba(0,255,255,.025) 4px
+    );
 }
-nav a{
-  color:#8295a8;text-decoration:none;font-size:11px;
-  padding:10px 13px;border:1px solid #19303b;
+
+.container {
+    width: min(1200px, 92%);
+    margin: auto;
+    position: relative;
+    z-index: 1;
 }
-nav a:hover{color:#00ffd0;border-color:#00ffd0}
-main{position:relative;max-width:1250px;margin:auto;padding:35px 20px}
-.hero{margin-bottom:28px}
-.hero small{color:#00ffd0;letter-spacing:3px}
-.hero h1{font-size:clamp(30px,5vw,48px);margin:15px 0}
-.hero p{color:#718497;line-height:1.8;font-size:13px}
-.overview{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:14px;
+
+header {
+    padding: 25px 0;
+    border-bottom: 1px solid #123b46;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
-.box{
-  background:#0a1018;border:1px solid #19313d;padding:20px;
+
+.logo {
+    color: #00f6ff;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    text-shadow: 0 0 15px #00f6ff;
 }
-.box small{color:#718598;font-size:11px}
-.box h2{color:#00ffd0;font-size:21px;margin-top:12px}
-.middle{
-  display:grid;grid-template-columns:1.2fr 1fr;gap:18px;margin-top:20px;
+
+.subtitle {
+    color: #5c8391;
+    font-size: 10px;
+    margin-top: 6px;
+    letter-spacing: 2px;
 }
-.section-title{color:#00ffd0;font-size:12px;margin-bottom:16px}
-.radar-wrap{
-  display:flex;align-items:center;justify-content:center;
-  min-height:300px;background:#080e14;border:1px solid #19313d;
+
+.clock {
+    text-align: right;
+    color: #00f6ff;
 }
-.radar{
-  width:min(240px,65vw);aspect-ratio:1;border-radius:50%;
-  border:1px solid #165344;position:relative;overflow:hidden;
-  background:
-    radial-gradient(circle,transparent 24%,#00ffd012 25%,transparent 26%),
-    radial-gradient(circle,transparent 49%,#00ffd016 50%,transparent 51%),
-    radial-gradient(circle,transparent 74%,#00ffd01c 75%,transparent 76%),
-    #06120f;
+
+#time {
+    font-size: 23px;
 }
-.radar:before,.radar:after{
-  content:"";position:absolute;background:#17483d;
+
+#date {
+    color: #718d99;
+    font-size: 11px;
+    margin-top: 5px;
 }
-.radar:before{width:1px;height:100%;left:50%}
-.radar:after{height:1px;width:100%;top:50%}
-.sweep{
-  position:absolute;width:50%;height:50%;left:50%;top:0;
-  transform-origin:bottom left;
-  background:linear-gradient(45deg,#00ffd050,transparent 70%);
-  animation:spin 4s linear infinite;
+
+nav {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 18px 0;
 }
-@keyframes spin{to{transform:rotate(360deg)}}
-.point{
-  position:absolute;width:5px;height:5px;border-radius:50%;
-  background:#00ff9c;box-shadow:0 0 9px #00ff9c;
+
+nav a {
+    color: #7fabb6;
+    text-decoration: none;
+    border: 1px solid #153742;
+    padding: 10px 14px;
+    font-size: 11px;
+    transition: .2s;
 }
-.modules{display:grid;gap:10px}
-.module{
-  background:#0a1018;border:1px solid #19313d;
-  padding:17px;display:flex;justify-content:space-between;gap:10px;
+
+nav a:hover {
+    color: #00f6ff;
+    border-color: #00f6ff;
+    box-shadow: 0 0 12px #00f6ff22;
 }
-.module span:first-child{color:#91a5b8;font-size:12px}
-.module span:last-child{color:#00ff9c;font-size:11px}
-.directory{margin-top:25px}
-.cards{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
+
+.section-title {
+    margin: 30px 0 16px;
+    color: #00f6ff;
+    font-size: 13px;
+    letter-spacing: 3px;
 }
-.card{
-  display:block;text-decoration:none;color:inherit;
-  background:#0a1018;border:1px solid #19313d;padding:22px;
-  transition:.2s;min-height:175px;
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
 }
-.card:hover{border-color:#00ffd0;transform:translateY(-3px)}
-.card small{color:#00ffd0;font-size:11px}
-.card h3{margin:18px 0 10px}
-.card p{font-size:12px;color:#718598;line-height:1.7}
-.card b{display:block;color:#00ffd0;margin-top:15px;font-size:11px}
-.terminal{
-  background:#030608;border:1px solid #19313d;
-  margin-top:22px;padding:18px;font-size:11px;line-height:2;
+
+.card {
+    background: #09121a;
+    border: 1px solid #153441;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
 }
-.terminal div{color:#718598}
-.terminal span{color:#00ff9c}
-footer{
-  position:relative;text-align:center;padding:25px;
-  border-top:1px solid #152a35;color:#4b5f6e;font-size:10px;
+
+.card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2px;
+    width: 100%;
+    background: #00f6ff;
+    opacity: .6;
 }
-@media(max-width:750px){
-  .middle{grid-template-columns:1fr}
-  header{padding:17px}
-  nav{padding:12px}
-  main{padding:25px 15px}
+
+.card-label {
+    font-size: 10px;
+    color: #668995;
+    letter-spacing: 1px;
+}
+
+.card-value {
+    font-size: 19px;
+    color: #00f6ff;
+    margin-top: 12px;
+}
+
+.online {
+    color: #63ff9a;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.panel {
+    background: #09121a;
+    border: 1px solid #153441;
+    padding: 20px;
+}
+
+.panel-title {
+    font-size: 12px;
+    color: #00f6ff;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.radar {
+    width: min(270px, 80vw);
+    aspect-ratio: 1;
+    border: 1px solid #087e88;
+    border-radius: 50%;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle, transparent 20%, #00f6ff12 21%, transparent 22%),
+        radial-gradient(circle, transparent 40%, #00f6ff12 41%, transparent 42%),
+        radial-gradient(circle, transparent 60%, #00f6ff12 61%, transparent 62%),
+        radial-gradient(circle, transparent 80%, #00f6ff12 81%, transparent 82%);
+}
+
+.radar::before,
+.radar::after {
+    content: "";
+    position: absolute;
+    background: #087e8844;
+}
+
+.radar::before {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+}
+
+.radar::after {
+    height: 1px;
+    width: 100%;
+    top: 50%;
+}
+
+.sweep {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        transparent 280deg,
+        #00f6ff35 330deg,
+        #00f6ff99 360deg
+    );
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    to { transform: rotate(360deg); }
+}
+
+.dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #00f6ff;
+    box-shadow: 0 0 10px #00f6ff;
+    border-radius: 50%;
+}
+
+.d1 { top: 32%; left: 65%; }
+.d2 { top: 62%; left: 35%; }
+.d3 { top: 73%; left: 68%; }
+
+.terminal {
+    background: #03070a;
+    border: 1px solid #12323b;
+    height: 240px;
+    padding: 15px;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.8;
+}
+
+.terminal-line {
+    color: #65e9b5;
+    overflow-wrap: anywhere;
+}
+
+.terminal-line span {
+    color: #00f6ff;
+}
+
+.modules {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+.module {
+    text-decoration: none;
+    display: block;
+    background: #09121a;
+    border: 1px solid #153441;
+    padding: 20px;
+    transition: .25s;
+    color: #d9faff;
+}
+
+.module:hover {
+    border-color: #00f6ff;
+    transform: translateY(-3px);
+    box-shadow: 0 0 18px #00f6ff15;
+}
+
+.module h3 {
+    color: #00f6ff;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.module p {
+    color: #688894;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.module-status {
+    margin-top: 15px;
+    color: #63ff9a;
+    font-size: 10px;
+}
+
+footer {
+    border-top: 1px solid #153441;
+    padding: 20px 0;
+    color: #466873;
+    font-size: 10px;
+    text-align: center;
+    margin-top: 25px;
+}
+
+@media(max-width: 850px) {
+    .status-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modules {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 480px) {
+    .logo {
+        font-size: 19px;
+    }
+
+    #time {
+        font-size: 18px;
+    }
+
+    nav a {
+        flex: 1;
+        text-align: center;
+    }
+
+    .card {
+        padding: 13px;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<div class="scanline"></div>
+
+<div class="container">
+
 <header>
-  <div class="logo">OSIRIS</div>
-  <div class="status">● SYSTEM ONLINE</div>
+    <div>
+        <div class="logo">OSIRIS // V2</div>
+        <div class="subtitle">DIGITAL SYSTEM CONTROL INTERFACE</div>
+    </div>
+
+    <div class="clock">
+        <div id="time">00:00:00</div>
+        <div id="date">INITIALIZING...</div>
+    </div>
 </header>
 
 <nav>
-  <a href="./control.html">⌂ CONTROL CENTER</a>
-  <a href="./index.html">▶ VIDEO PLAYER</a>
-  <a href="./dashboard.html">▤ ANALYTICS</a>
-  <a href="./monitor.html">⌁ DIGITAL MONITOR</a>
+    <a href="index.html">VIDEO PLAYER</a>
+    <a href="dashboard.html">ANALYTICS</a>
+    <a href="monitor.html">SYSTEM MONITOR</a>
+    <a href="control.html">CONTROL CENTER</a>
 </nav>
 
-<main>
+<h2 class="section-title">SYSTEM OVERVIEW</h2>
 
-<section class="hero">
-  <small>OSIRIS // CENTRAL COMMAND INTERFACE</small>
-  <h1>Control Center</h1>
-  <p>Unified interface for digital media, analytics and system visualization.</p>
-</section>
-
-<section class="overview">
-  <div class="box">
-    <small>PLATFORM STATUS</small>
-    <h2>OPERATIONAL</h2>
-  </div>
-  <div class="box">
-    <small>AVAILABLE MODULES</small>
-    <h2>03</h2>
-  </div>
-  <div class="box">
-    <small>MODE</small>
-    <h2>SIMULATION</h2>
-  </div>
-  <div class="box">
-    <small>JAKARTA TIME</small>
-    <h2 id="clock">--:--:--</h2>
-  </div>
-</section>
-
-<section class="middle">
-
-  <div>
-    <div class="section-title">// RADAR VISUALIZATION</div>
-    <div class="radar-wrap">
-      <div class="radar">
-        <div class="sweep"></div>
-        <div class="point" style="left:28%;top:35%"></div>
-        <div class="point" style="left:68%;top:25%"></div>
-        <div class="point" style="left:57%;top:72%"></div>
-        <div class="point" style="left:38%;top:63%"></div>
-      </div>
+<div class="status-grid">
+    <div class="card">
+        <div class="card-label">CORE SYSTEM</div>
+        <div class="card-value online">ONLINE</div>
     </div>
-  </div>
 
-  <div>
-    <div class="section-title">// MODULE STATUS</div>
-    <div class="modules">
-      <div class="module"><span>Interface</span><span>READY</span></div>
-      <div class="module"><span>Media Player</span><span>AVAILABLE</span></div>
-      <div class="module"><span>Analytics</span><span>AVAILABLE</span></div>
-      <div class="module"><span>Digital Monitor</span><span>SIMULATION</span></div>
-      <div class="module"><span>External sensors</span><span>DISCONNECTED</span></div>
+    <div class="card">
+        <div class="card-label">NETWORK STATUS</div>
+        <div class="card-value online">CONNECTED</div>
     </div>
-  </div>
 
-</section>
+    <div class="card">
+        <div class="card-label">INTERFACE</div>
+        <div class="card-value">OSIRIS V2</div>
+    </div>
 
-<section class="directory">
-  <div class="section-title">// MODULE DIRECTORY</div>
-  <div class="cards">
+    <div class="card">
+        <div class="card-label">OPERATION MODE</div>
+        <div class="card-value">SIMULATION</div>
+    </div>
+</div>
 
-    <a class="card" href="./index.html">
-      <small>MODULE 01</small>
-      <h3>Video Player</h3>
-      <p>Media playback and video interface.</p>
-      <b>OPEN MODULE →</b>
+<div class="main-grid">
+
+    <div class="panel">
+        <div class="panel-title">RADAR VISUALIZATION</div>
+
+        <div class="radar">
+            <div class="sweep"></div>
+            <div class="dot d1"></div>
+            <div class="dot d2"></div>
+            <div class="dot d3"></div>
+        </div>
+
+        <div style="text-align:center;color:#638995;font-size:10px;">
+            RADAR DISPLAY // VISUAL SIMULATION
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-title">SYSTEM TERMINAL</div>
+        <div class="terminal" id="terminal"></div>
+    </div>
+
+</div>
+
+<h2 class="section-title">MODULE DIRECTORY</h2>
+
+<div class="modules">
+
+    <a href="index.html" class="module">
+        <h3>VIDEO PLAYER</h3>
+        <p>Media playback interface and player controls.</p>
+        <div class="module-status">● AVAILABLE</div>
     </a>
 
-    <a class="card" href="./dashboard.html">
-      <small>MODULE 02</small>
-      <h3>Analytics</h3>
-      <p>Aggregate statistics and data visualization.</p>
-      <b>OPEN MODULE →</b>
+    <a href="dashboard.html" class="module">
+        <h3>ANALYTICS</h3>
+        <p>Charts and aggregate demo statistics.</p>
+        <div class="module-status">● AVAILABLE</div>
     </a>
 
-    <a class="card" href="./monitor.html">
-      <small>MODULE 03</small>
-      <h3>Digital Monitor</h3>
-      <p>Simulated radar and system diagnostics.</p>
-      <b>OPEN MODULE →</b>
+    <a href="monitor.html" class="module">
+        <h3>SYSTEM MONITOR</h3>
+        <p>Radar visualization and system diagnostics simulation.</p>
+        <div class="module-status">● AVAILABLE</div>
     </a>
 
-  </div>
-</section>
+</div>
 
-<section class="terminal">
-  <div><span>[SYSTEM]</span> OSIRIS central interface initialized.</div>
-  <div><span>[STATUS]</span> Navigation modules available.</div>
-  <div><span>[RADAR]</span> Visual simulation active.</div>
-  <div><span>[SECURITY]</span> No covert camera or location collection.</div>
-  <div><span>[READY]</span> Awaiting module selection.</div>
-</section>
+<footer>
+    OSIRIS V2 // INTERACTIVE DEMO // SIMULATED DATA ONLY
+</footer>
 
-</main>
-
-<footer>OSIRIS CENTRAL INTERFACE // VISUAL SIMULATION // 2026</footer>
+</div>
 
 <script>
-function clock(){
-  document.getElementById("clock").textContent=
-    new Date().toLocaleTimeString("id-ID",{
-      timeZone:"Asia/Jakarta",
-      hour12:false
-    });
+function updateClock() {
+    const now = new Date();
+
+    document.getElementById("time").textContent =
+        now.toLocaleTimeString("id-ID", {
+            hour12: false
+        });
+
+    document.getElementById("date").textContent =
+        now.toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
 }
-clock();
-setInterval(clock,1000);
+
+updateClock();
+setInterval(updateClock, 1000);
+
+const terminal = document.getElementById("terminal");
+
+const logs = [
+    "Interface initialized successfully.",
+    "Visual radar module loaded.",
+    "Dashboard module ready.",
+    "Player module available.",
+    "Diagnostics simulation completed.",
+    "System state: operational.",
+    "Interface integrity: nominal.",
+    "OSIRIS V2 running in demo mode."
+];
+
+function addLog() {
+    const line = document.createElement("div");
+    line.className = "terminal-line";
+
+    const time = new Date().toLocaleTimeString("id-ID", {
+        hour12: false
+    });
+
+    const msg = logs[Math.floor(Math.random() * logs.length)];
+
+    line.innerHTML = "<span>[" + time + "]</span> " + msg;
+
+    terminal.appendChild(line);
+
+    while (terminal.children.length > 9) {
+        terminal.removeChild(terminal.firstChild);
+    }
+
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+addLog();
+setInterval(addLog, 2500);
 </script>
 
 </body>
