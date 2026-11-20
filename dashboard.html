@@ -366,5 +366,39 @@ message.textContent = "Statistik agregat berhasil dimuat.";
         </p>
     </div>
 </section>
+    <script>
+(function () {
+    const mapElement = document.getElementById("osirisMap");
+    const statusElement = document.getElementById("mapStatus");
+
+    if (!mapElement || !window.L) {
+        if (statusElement) {
+            statusElement.textContent = "MAP ERROR — LIBRARY NOT AVAILABLE";
+        }
+        return;
+    }
+
+    const defaultLat = -6.2000;
+    const defaultLng = 106.8166;
+
+    const map = L.map("osirisMap").setView(
+        [defaultLat, defaultLng],
+        12
+    );
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "&copy; OpenStreetMap contributors"
+    }).addTo(map);
+
+    L.marker([defaultLat, defaultLng])
+        .addTo(map)
+        .bindPopup("OSIRIS — Default Map Location");
+
+    statusElement.textContent =
+        "MAP ACTIVE — DEFAULT LOCATION";
+
+})();
+</script>
 </body>
 </html>
