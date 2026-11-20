@@ -478,7 +478,58 @@ message.textContent = "Statistik agregat berhasil dimuat.";
     updateGeoInfo();
 
     statusElement.textContent = "MAP ACTIVE — MANUAL MAP POINT";
+window.searchAddress = async function () {
+    const input = document.getElementById("addressSearch");
+    const address = input.value.trim();
 
+    if (!address) {
+        alert("Masukkan alamat terlebih dahulu.");
+        return;
+    }
+
+    const status = document.getElementById("mapStatus");
+    status.textContent = "SEARCHING LOCATION...";
+
+    try {
+        const url =
+            "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
+            encodeURIComponent(address);
+
+        const response = await fetch(url);
+        const results = await response.json();
+
+        if (!results.length) {
+            status.textContent = "LOCATION NOT FOUND";
+            return;
+        }
+
+        const result = results[0];
+        const lat = Number(result.lat);
+        const lng = Number(result.lon);
+
+        map.setView([lat, lng], 17);
+        marker.setLatLng([lat, lng]);
+
+        document.getElementById("mapLatitude").textContent =
+            lat.toFixed(6);
+
+        document.getElementById("mapLongitude").textContent =
+            lng.toFixed(6);
+
+        document.getElementById("locationAddress").textContent =
+            result.display_name;
+
+        document.getElementById("geoStatus").textContent =
+            "LOCATION FOUND";
+
+        marker.bindPopup(result.display_name).openPopup();
+
+        status.textContent = "ADDRESS FOUND — MAP UPDATED";
+
+    } catch (error) {
+        status.textContent = "SEARCH FAILED";
+    }
+};
 })();
 </script>
 </script>
